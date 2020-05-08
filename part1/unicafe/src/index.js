@@ -12,19 +12,11 @@ const StatisticLine = ({ text, value }) => (
 )
 
 const Average = ({ good, bad, all }) => {
-  if (all === 0) {
-    return <p>average: 0</p>
-  }
-  return (
-    <p>average: {(good - bad) / all}</p>
-  )
+  return (good - bad) / all
 }
 
 const Positive = ({ good, all }) => {
-  if (all === 0) {
-    return <p>positive: 0</p>
-  }
-  return <p>positive: {((100 * good) / all) + ' %'}</p>
+  return (100 * good) / all + ' %'
 }
 
 const Statistics = ({ good, neutral, bad, all }) => {
@@ -35,12 +27,12 @@ const Statistics = ({ good, neutral, bad, all }) => {
   }
   return (
     <>
-      <StatisticLine text='good: ' value={good}  />
-      <StatisticLine text='neutral: ' value={neutral}  />
-      <StatisticLine text='bad: ' value={bad}  />
-      <StatisticLine text='all: ' value={all}  />
-      <Average good={good} bad={bad} all={all} />
-      <Positive good={good} all={all} />
+      <StatisticLine text='good: ' value={good} />
+      <StatisticLine text='neutral: ' value={neutral} />
+      <StatisticLine text='bad: ' value={bad} />
+      <StatisticLine text='all: ' value={all} />
+      <StatisticLine text='average: ' value={<Average good={good} bad={bad} all={all} />} />
+      <StatisticLine text='positive: ' value={<Positive good={good} all={all} />} />
     </>
   )
 }
