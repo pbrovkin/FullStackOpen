@@ -7,8 +7,8 @@ const Button = ({ onClick, text }) => (
   </button>
 )
 
-const Feedback = ({ type, text }) => (
-  <p>{text}: {type}</p>
+const StatisticLine = ({ text, value }) => (
+  <p>{text}: {value}</p>
 )
 
 const Average = ({ good, bad, all }) => {
@@ -35,10 +35,10 @@ const Statistics = ({ good, neutral, bad, all }) => {
   }
   return (
     <>
-      <Feedback type={good} text='good: ' />
-      <Feedback type={neutral} text='neutral: ' />
-      <Feedback type={bad} text='bad: ' />
-      <Feedback type={all} text='all: ' />
+      <StatisticLine text='good: ' value={good}  />
+      <StatisticLine text='neutral: ' value={neutral}  />
+      <StatisticLine text='bad: ' value={bad}  />
+      <StatisticLine text='all: ' value={all}  />
       <Average good={good} bad={bad} all={all} />
       <Positive good={good} all={all} />
     </>
