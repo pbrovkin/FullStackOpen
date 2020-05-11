@@ -11,22 +11,6 @@ const Votes = ({ points, index }) => (
   <p>has {points[index]} votes</p>
 )
 
-const MaxVotesAnecdote = ({ points, anecdotes }) => {
-  if (Math.max(...points) === 0) {
-    return (
-      <p>No votes yet</p>
-    )
-  }
-  return (
-    <>
-      <p>
-        {anecdotes[points.indexOf(Math.max(...points))]}
-      </p>
-      <Votes points={points} index={points.indexOf(Math.max(...points))} />
-    </>
-  )
-}
-
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
@@ -57,7 +41,16 @@ const App = (props) => {
       <Button onClick={handleVoteAnecdote} text='vote' />
       <Button onClick={handleNextAnecdote} text='next anecdote' />
       <h1>Anecdote with most votes</h1>
-      <MaxVotesAnecdote points={points} anecdotes={props.anecdotes} />
+      {
+        Math.max(...points) === 0 ?
+          <p>No votes yet</p> :
+          <>
+            <p>
+              {props.anecdotes[points.indexOf(Math.max(...points))]}
+            </p>
+            <Votes points={points} index={points.indexOf(Math.max(...points))} />
+          </>
+      }
     </div>
   )
 }
