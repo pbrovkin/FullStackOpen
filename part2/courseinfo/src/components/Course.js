@@ -1,26 +1,25 @@
 import React from 'react'
 
-const Header = ({ name }) => {
-    return (
-        <h2>{name}</h2>
-    )
-}
+const Header = ({ courseName }) => (
+    <h1>{courseName}</h1>
+)
 
-const Part = ({ part }) => {
-    return (
-        <p>{part.name} {part.exercises}</p>
-    )
-}
+const Part = ({ part }) => (
+    <p>{part.name} {part.exercises}</p>
+)
+
+const Content = ({ course }) => (
+    <>
+        {course.parts.map(part =>
+            <Part part={part} />)}
+    </>
+)
 
 const Course = ({ course }) => {
     return (
         <div>
-            <Header name={course.name} />
-            {course.parts.map(part =>
-                <Part
-                    key={part.id}
-                    part={part}
-                />)}
+            <Header courseName={course.name} />
+            <Content course={course} />
         </div>
     )
 }
