@@ -1,9 +1,7 @@
 import React from 'react'
 
-const Countries = ({ countries, filter }) => {
-    if (filter === '') {
-        return null
-    } else if (countries.length > 10) {
+const Countries = ({ countries }) => {
+    if (countries.length > 10) {
         return (
             <div>too many matches, specify another filter</div>
         )
