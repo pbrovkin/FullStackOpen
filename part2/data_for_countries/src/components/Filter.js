@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Filter = ({ setFilter }) => {
+
     const handleFilterChange = (event) => {
         setFilter(event.target.value)
     }
