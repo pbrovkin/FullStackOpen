@@ -10,21 +10,21 @@ const Weather = ({ city }) => {
     const url = () => `http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`
 
     useEffect(() => {
-        let isSubscribed = true
+        let isOn = true
         axios
             .get(url())
             .then(response => {
-                if (isSubscribed) {
+                if (isOn) {
                     setWeather(response.data.current)
                 }
             })
-        return () => isSubscribed = false
+        return () => isOn = false
     })
 
     if (!weather) {
         return (
             <div>
-                getting weather data...
+                loading weather data...
             </div>
         )
     } else {
