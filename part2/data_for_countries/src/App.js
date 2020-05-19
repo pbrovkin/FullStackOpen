@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import Countries from './components/Countries'
 
 const App = () => {
+  
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
 

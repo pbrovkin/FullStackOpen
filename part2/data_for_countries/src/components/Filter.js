@@ -7,11 +7,13 @@ const Filter = ({ setFilter }) => {
     }
 
     return (
-        <form>
-            <div>
-                find countries: <input onChange={handleFilterChange} />
-            </div>
-        </form>
+        <div>
+            <form>
+                <div>
+                    find countries: <input onChange={handleFilterChange} />
+                </div>
+            </form>
+        </div>
     )
 }
 
