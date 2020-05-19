@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import ContactForm from './components/ContactForm'
 import Contacts from './components/Contacts'
+import contactService from './services/contacts'
 
 const App = () => {
   const [contacts, setContacts] = useState([])
@@ -28,9 +29,13 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      setContacts(contacts.concat(contactObject))
-      setNewName('')
-      setNewNumber('')
+      contactService
+        .create(contactObject)
+        .then(returnedContact => {
+          setContacts(contacts.concat(contactObject))
+          setNewName('')
+          setNewNumber('')
+        })
     } else {
       alert(`${newName} is already added to phonebook`)
       setNewName('')
