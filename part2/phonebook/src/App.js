@@ -42,6 +42,18 @@ const App = () => {
     }
   }
 
+  const deleteContact = id => {
+    let contactToDel = contacts.find(c => c.id === id)
+    if (window.confirm(`Delete ${contactToDel.name} ?`)) {
+      contactService
+        .del(id)
+        .then(() => {
+          setContacts(contacts.filter(c => c.id !== id))
+        })
+    }
+  }
+
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -59,7 +71,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Contacts filteredContacts={filteredContacts} />
+      <Contacts filteredContacts={filteredContacts} deleteContact={deleteContact} />
     </div>
   )
 }
