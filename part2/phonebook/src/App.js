@@ -13,8 +13,8 @@ const App = () => {
   useEffect(() => {
     contactService
       .getAll()
-      .then(response => {
-        setContacts(response.data)
+      .then(initialContacts => {
+        setContacts(initialContacts)
       })
   }, [])
 
