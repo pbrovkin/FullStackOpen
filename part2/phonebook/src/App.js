@@ -23,11 +23,28 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
-    if (!contacts.map(contact => contact.name).includes(newName)) {
-      const contactObject = {
-        name: newName,
-        number: newNumber
+    const contactObject = {
+      name: newName.trim(),
+      number: newNumber.trim()
+    }
+    const contactToUpdate = contacts.find(c => c.name === newName)
+    if (contactToUpdate) {
+      if (window.confirm(
+        `'${newName}' is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedContact = { ...contactToUpdate, number: newNumber }
+        contactService
+          .update(contactToUpdate.id, updatedContact)
+          .then(returnedContact => {
+            setContacts(contacts.map(c => c.id !== contactToUpdate.id ? c : returnedContact))
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => { 
+            console.log(`Contact not found. ${error}`)
+            setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
+          })
       }
+    } else {
       contactService
         .create(contactObject)
         .then(returnedContact => {
@@ -35,20 +52,23 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-    } else {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      setNewNumber('')
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 
+
   const deleteContact = id => {
     let contactToDel = contacts.find(c => c.id === id)
-    if (window.confirm(`Delete ${contactToDel.name} ?`)) {
+    if (window.confirm(`Delete '${contactToDel.name}'?`)) {
       contactService
         .del(id)
         .then(() => {
           setContacts(contacts.filter(c => c.id !== id))
+        })
+        .catch(error => {
+          console.log(`Contact not found. ${error}`)
         })
     }
   }
