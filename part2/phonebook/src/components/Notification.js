@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Notification = ({ message }) => {
+const Notification = ({ notification }) => {
 
     const notifStyle = {
         color: 'green',
@@ -12,13 +12,17 @@ const Notification = ({ message }) => {
         marginBottom: '10px',
     }
 
-    if (message === null) {
+    if (notification.type === 'error') {
+        notifStyle.color = 'red'
+    }
+
+    if (notification.message === null || notification.type === null) {
         return null
     }
 
     return (
         <div style={notifStyle}>
-            {message}
+            {notification.message}
         </div>
     )
 }

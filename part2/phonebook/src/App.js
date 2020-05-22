@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [notification, setNotification] = useState(null)
+  const [notification, setNotification] = useState({ message: null, type: null })
 
   useEffect(() => {
     contactService
@@ -41,15 +41,26 @@ const App = () => {
             setNewName('')
             setNewNumber('')
             setNotification(
-              `Phone number of '${returnedContact.name}' updated`
+              {
+                message: `Phone number of '${returnedContact.name}' updated`,
+                type: 'success'
+              }
             )
             setTimeout(() => {
-              setNotification(null)
+              setNotification({ message: null, type: null })
             }, 5000)
           })
           .catch(error => {
-            console.log(`Contact not found. ${error}`)
             setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
+            setNotification(
+              {
+                message: `Contact information of '${contactToUpdate.name}' has already been removed. ${error}`,
+                type: 'error'
+              }
+            )
+            setTimeout(() => {
+              setNotification({ message: null, type: null })
+            }, 5000)
           })
       }
     } else {
@@ -60,13 +71,25 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setNotification(
-            `'${returnedContact.name}' added`
+            {
+              message: `'${returnedContact.name}' added`,
+              type: 'success'
+            }
           )
           setTimeout(() => {
-            setNotification(null)
+            setNotification({ message: null, type: null })
           }, 5000)
         })
         .catch(error => {
+          setNotification(
+            {
+              message: `Contact information is not added. ${error}`,
+              type: 'error'
+            }
+          )
+          setTimeout(() => {
+            setNotification({ message: null, type: null })
+          }, 5000)
           console.log(error)
         })
     }
@@ -81,14 +104,25 @@ const App = () => {
         .then(() => {
           setContacts(contacts.filter(c => c.id !== id))
           setNotification(
-            `'${contactToDel.name}' deleted`
+            {
+              message: `'${contactToDel.name}' deleted`,
+              type: 'success'
+            }
           )
           setTimeout(() => {
-            setNotification(null)
+            setNotification({ message: null, type: null })
           }, 5000)
         })
         .catch(error => {
-          console.log(`Contact not found. ${error}`)
+          setNotification(
+            {
+              message: `Contact not found. ${error}`,
+              type: 'error'
+            }
+          )
+          setTimeout(() => {
+            setNotification({ message: null, type: null })
+          }, 5000)
         })
     }
   }
@@ -96,7 +130,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={notification} />
+      <Notification notification={notification} />
 
       <h2>Phonebook</h2>
 
