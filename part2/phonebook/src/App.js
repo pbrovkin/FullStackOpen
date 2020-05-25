@@ -54,7 +54,8 @@ const App = () => {
             setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
             setNotification(
               {
-                message: `Contact information of '${contactToUpdate.name}' has already been removed. ${error}`,
+                message: `Contact information of '${contactToUpdate.name}' 
+                has already been removed from server. ${error}`,
                 type: 'error'
               }
             )
@@ -114,6 +115,7 @@ const App = () => {
           }, 5000)
         })
         .catch(error => {
+          setContacts(contacts.filter(c => c.id !== contactToDel.id))
           setNotification(
             {
               message: `Contact not found. ${error}`,
