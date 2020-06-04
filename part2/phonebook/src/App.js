@@ -23,6 +23,18 @@ const App = () => {
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(newFilter.toLowerCase()))
 
+  const showAndClearNotification = (message, type) => {
+    setNotification(
+      {
+        message: message,
+        type: type
+      }
+    )
+    setTimeout(() => {
+      setNotification({ message: null, type: null })
+    }, 5000)
+  }
+
   const addContact = (event) => {
     event.preventDefault()
     const contactObject = {
@@ -40,28 +52,13 @@ const App = () => {
             setContacts(contacts.map(c => c.id !== contactToUpdate.id ? c : returnedContact))
             setNewName('')
             setNewNumber('')
-            setNotification(
-              {
-                message: `Phone number of '${returnedContact.name}' updated`,
-                type: 'success'
-              }
-            )
-            setTimeout(() => {
-              setNotification({ message: null, type: null })
-            }, 5000)
+            showAndClearNotification(`Phone number of '${returnedContact.name}' updated`,
+              'success')
           })
           .catch(error => {
             setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
-            setNotification(
-              {
-                message: `Contact information of '${contactToUpdate.name}' 
-                has already been removed from server. ${error}`,
-                type: 'error'
-              }
-            )
-            setTimeout(() => {
-              setNotification({ message: null, type: null })
-            }, 5000)
+            showAndClearNotification(`Contact information of '${contactToUpdate.name}' 
+            has already been removed from server. ${error}`, 'error')
           })
       }
     } else {
@@ -71,27 +68,11 @@ const App = () => {
           setContacts(contacts.concat(returnedContact))
           setNewName('')
           setNewNumber('')
-          setNotification(
-            {
-              message: `'${returnedContact.name}' added`,
-              type: 'success'
-            }
-          )
-          setTimeout(() => {
-            setNotification({ message: null, type: null })
-          }, 5000)
+          showAndClearNotification(`'${returnedContact.name}' added`, 'success')
         })
         .catch(error => {
-          setNotification(
-            {
-              message: `Contact information is not added. ${error}`,
-              type: 'error'
-            }
-          )
-          setTimeout(() => {
-            setNotification({ message: null, type: null })
-          }, 5000)
-          console.log(error)
+          showAndClearNotification(`Contact information is not added. ${error}`, 'error')
+          console.log(error.response.data)
         })
     }
   }
@@ -104,27 +85,11 @@ const App = () => {
         .del(id)
         .then(() => {
           setContacts(contacts.filter(c => c.id !== id))
-          setNotification(
-            {
-              message: `'${contactToDel.name}' deleted`,
-              type: 'success'
-            }
-          )
-          setTimeout(() => {
-            setNotification({ message: null, type: null })
-          }, 5000)
+          showAndClearNotification(`'${contactToDel.name}' deleted`, 'success')
         })
         .catch(error => {
           setContacts(contacts.filter(c => c.id !== contactToDel.id))
-          setNotification(
-            {
-              message: `Contact not found. ${error}`,
-              type: 'error'
-            }
-          )
-          setTimeout(() => {
-            setNotification({ message: null, type: null })
-          }, 5000)
+          showAndClearNotification(`Contact not found. ${error}`, 'error')
         })
     }
   }
