@@ -45,36 +45,47 @@ const App = () => {
     if (contactToUpdate) {
       if (window.confirm(
         `'${newName}' is already added to phonebook, replace the old number with a new one?`)) {
-        const updatedContact = { ...contactToUpdate, number: newNumber }
+        if (newNumber.length > 7) {
+          const updatedContact = { ...contactToUpdate, number: newNumber }
+          contactService
+            .update(contactToUpdate.id, updatedContact)
+            .then(returnedContact => {
+              setContacts(contacts.map(c => c.id !== contactToUpdate.id ? c : returnedContact))
+              setNewName('')
+              setNewNumber('')
+              showAndClearNotification(`${returnedContact.name}'s phone number updated`,
+                'success')
+            })
+            .catch(error => {
+              setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
+              showAndClearNotification(`Contact information of '${contactToUpdate.name}' 
+            has already been removed from server. ${error}`, 'error')
+            })
+        } else {
+          showAndClearNotification(`Validation failed. ${newName}'s phone number 
+          must be at least 8 characters in length.`, 'error')
+        }
+      }
+    } else if (contactObject.name.length > 2 && contactObject.number.length > 7) {
         contactService
-          .update(contactToUpdate.id, updatedContact)
+          .create(contactObject)
           .then(returnedContact => {
-            setContacts(contacts.map(c => c.id !== contactToUpdate.id ? c : returnedContact))
+            setContacts(contacts.concat(returnedContact))
             setNewName('')
             setNewNumber('')
-            showAndClearNotification(`Phone number of '${returnedContact.name}' updated`,
-              'success')
+            showAndClearNotification(`'${returnedContact.name}' added`, 'success')
           })
           .catch(error => {
-            setContacts(contacts.filter(c => c.id !== contactToUpdate.id))
-            showAndClearNotification(`Contact information of '${contactToUpdate.name}' 
-            has already been removed from server. ${error}`, 'error')
+            showAndClearNotification(`Contact information is not added. ${error}`, 'error')
+            console.log(error.response.data)
           })
+      } else if (contactObject.name.length < 3) {
+        showAndClearNotification(`Validation failed. Contact name must be 
+        at least 3 characters in length.`, 'error')
+      } else if (contactObject.name.length > 2 && contactObject.number.length < 8) {
+        showAndClearNotification(`Validation failed. ${contactObject.name}'s phone number 
+        must be at least 8 characters in length.`, 'error')
       }
-    } else {
-      contactService
-        .create(contactObject)
-        .then(returnedContact => {
-          setContacts(contacts.concat(returnedContact))
-          setNewName('')
-          setNewNumber('')
-          showAndClearNotification(`'${returnedContact.name}' added`, 'success')
-        })
-        .catch(error => {
-          showAndClearNotification(`Contact information is not added. ${error}`, 'error')
-          console.log(error.response.data)
-        })
-    }
   }
 
 
