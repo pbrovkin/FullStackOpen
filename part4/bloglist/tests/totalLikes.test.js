@@ -1,6 +1,7 @@
 const listHelper = require('../utils/list_helper')
 
 describe('total likes', () => {
+    const listWithZeroBlogs = []
     const listWithOneBlog = [
         {
             _id: '5a422aa71b54a676234d17f8',
@@ -62,12 +63,17 @@ describe('total likes', () => {
         }
     ]
 
-    test('when list has only one blog sum of likes expected to be', () => {
+    test('of empty list is zero', () => {
+        const result = listHelper.totalLikes(listWithZeroBlogs)
+        expect(result).toBe(0)
+    })
+
+    test('when list has only one blog equals the likes that', () => {
         const result = listHelper.totalLikes(listWithOneBlog)
         expect(result).toBe(5)
     })
 
-    test('when list has many blogs sum of likes expected to be', () => {
+    test('of a bigger list is calculated right', () => {
         const result = listHelper.totalLikes(listWithManyBlogs)
         expect(result).toBe(36)
     })
