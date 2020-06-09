@@ -4,6 +4,14 @@ const dummy = (blogs) => {
     }
 }
 
+const totalLikes = (blogs) => {
+    const total = blogs
+        .map(blog => blog.likes)
+        .reduce((prev, curr) => prev + curr, 0)
+    return total
+}
+
 module.exports = {
-    dummy
+    dummy,
+    totalLikes
 }
