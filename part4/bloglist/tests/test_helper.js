@@ -12,8 +12,9 @@ const initialBlogs = [
         author: 'Testing Author',
         url: 'http://testing.com/',
         likes: 23
-    },
+    }
 ]
+
 
 module.exports = {
     initialBlogs
