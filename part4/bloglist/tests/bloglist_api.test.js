@@ -16,18 +16,16 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-test('blogs are returned as json', async () => {
-    await api
+
+test('app returns the correct amount of blogs', async () => {
+    const blogs = await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
+
+    expect(blogs.body.length).toBe(helper.initialBlogs.length)
 })
 
-test('app returns the correct amount of blogs', async () => {
-    const response = await api.get('/api/blogs')
-
-    expect(response.body.length).toBe(helper.initialBlogs.length)
-})
 
 afterAll(() => {
     mongoose.connection.close()
