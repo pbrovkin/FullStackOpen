@@ -33,6 +33,36 @@ test('identifier property of the blog is named id', async () => {
 })
 
 
+test('request creates a new blog post', async () => {
+    const newBlog = {
+        title: 'React patterns',
+        author: 'Michael Chan',
+        url: 'https://reactpatterns.com/',
+        likes: '15'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogs = await api.get('/api/blogs')
+
+    expect(blogs.body.length).toBe(helper.initialBlogs.length + 1)
+    expect(blogs.body).toEqual(
+        expect.arrayContaining([
+            expect.objectContaining({
+                title: 'React patterns',
+                author: 'Michael Chan',
+                url: 'https://reactpatterns.com/'
+            })
+        ])
+    )
+})
+
+
+
 afterAll(() => {
     mongoose.connection.close()
 })
