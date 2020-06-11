@@ -29,30 +29,6 @@ test('app returns the correct amount of blogs', async () => {
     expect(response.body.length).toBe(helper.initialBlogs.length)
 })
 
-test('identifier property of the blog is named id', async () => {
-    const blogs = await api.get('/api/blogs')
-    expect(blogs.body[0].id).toBeDefined()
-})
-
-test('request creates a new blog post', async () => {
-    const newBlog = {
-        title: 'react patterns',
-        author: 'Michael Chan',
-        url: 'https://reactpatterns.com/',
-        likes: '15',
-    }
-
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
-
-    const response = await api.get('/api/blogs')
-
-    expect(response.body.length).toBe(helper.initialBlogs.length + 1)
-})
-
 afterAll(() => {
     mongoose.connection.close()
 })
