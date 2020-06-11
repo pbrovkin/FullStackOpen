@@ -27,6 +27,12 @@ test('app returns the correct amount of blogs', async () => {
 })
 
 
+test('identifier property of the blog is named id', async () => {
+    const blogs = await api.get('/api/blogs')
+    blogs.body.map(blog => expect(blog.id).toBeDefined())
+})
+
+
 afterAll(() => {
     mongoose.connection.close()
 })
