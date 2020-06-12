@@ -65,7 +65,7 @@ test('request creates a new blog post', async () => {
 
 
 test('likes property has 0 value by default', async () => {
-    const newBlog1 = {
+    const newBlog = {
         'title': 'Type wars',
         'author': 'Robert C. Martin',
         'url': 'http://blog.cleancoder.com/'
@@ -73,7 +73,7 @@ test('likes property has 0 value by default', async () => {
 
     const blogs = await api
         .post('/api/blogs')
-        .send(newBlog1)
+        .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
