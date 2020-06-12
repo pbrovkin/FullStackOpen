@@ -38,7 +38,7 @@ test('request creates a new blog post', async () => {
         title: 'React patterns',
         author: 'Michael Chan',
         url: 'https://reactpatterns.com/',
-        likes: '15'
+        likes: 15
     }
 
     await api
@@ -50,7 +50,7 @@ test('request creates a new blog post', async () => {
     const blogs = await api.get('/api/blogs')
 
     expect(blogs.body.length).toBe(helper.initialBlogs.length + 1)
-    
+
     expect(blogs.body).toEqual(
         expect.arrayContaining([
             expect.objectContaining({
