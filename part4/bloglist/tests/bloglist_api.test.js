@@ -66,9 +66,9 @@ test('request creates a new blog post', async () => {
 
 test('likes property has 0 value by default', async () => {
     const newBlog = {
-        'title': 'Type wars',
-        'author': 'Robert C. Martin',
-        'url': 'http://blog.cleancoder.com/'
+        title: 'Type wars',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/'
     }
 
     const blogs = await api
@@ -78,6 +78,22 @@ test('likes property has 0 value by default', async () => {
         .expect('Content-Type', /application\/json/)
 
     expect(blogs.body.likes).toEqual(0)
+})
+
+
+test('fails with status code 400 if data invalid', async () => {
+    const newBlog = {
+        author: 'Edsger W. Dijkstra'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
 
