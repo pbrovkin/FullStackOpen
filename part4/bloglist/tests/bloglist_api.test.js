@@ -82,6 +82,7 @@ test('likes property has 0 value by default', async () => {
 
 
 test('fails with status code 400 if title and url are missing', async () => {
+
     const newBlog = {
         author: 'Edsger W. Dijkstra',
         likes: 12
@@ -91,10 +92,6 @@ test('fails with status code 400 if title and url are missing', async () => {
         .post('/api/blogs')
         .send(newBlog)
         .expect(400)
-
-    const blogs = await api.get('/api/blogs')
-
-    expect(blogs.body.length).toBe(helper.initialBlogs.length)
 })
 
 
