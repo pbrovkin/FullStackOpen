@@ -81,9 +81,10 @@ test('likes property has 0 value by default', async () => {
 })
 
 
-test('fails with status code 400 if data invalid', async () => {
+test('fails with status code 400 if title and url are missing', async () => {
     const newBlog = {
-        author: 'Edsger W. Dijkstra'
+        author: 'Edsger W. Dijkstra',
+        likes: 12
     }
 
     await api
@@ -91,9 +92,9 @@ test('fails with status code 400 if data invalid', async () => {
         .send(newBlog)
         .expect(400)
 
-    const blogsAtEnd = await helper.blogsInDb()
+    const blogs = await api.get('/api/blogs')
 
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+    expect(blogs.body.length).toBe(helper.initialBlogs.length)
 })
 
 
