@@ -124,7 +124,7 @@ describe('when there is initially some blogs saved', () => {
         })
     })
 
-    describe('updating of a blog', () => {
+    describe('updating a blog', () => {
         test('update the amount of likes for a blog post', async () => {
             const blogs = await helper.blogsInDb()
 
