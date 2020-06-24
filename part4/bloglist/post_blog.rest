@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5vbmFtZSIsImlkIjoiNWVlYjRjMDdkZjFhOWUyNDU4OGEwYmIwIiwiaWF0IjoxNTkzMDAyNjYwfQ.YI2hL1158bmtOezfFXCCQA2Gtom97fLEIHei4R8fDqg
 
 {
-    "title": "nollata",
-    "author": "null null",
-    "url": "http://nuull.com/",
-    "likes": 23,
+    "title": "Authorization testing",
+    "author": "testing Authorization",
+    "url": "http://authorization.com/",
+    "likes": 33,
     "userId": "5ef32004cfce7413f644eded"
 }
