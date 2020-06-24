@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "jojo title",
-    "author": "jojo author",
-    "url": "http://jojo.com/",
-    "likes": 42
+    "title": "nollata",
+    "author": "null null",
+    "url": "http://nuull.com/",
+    "likes": 23,
+    "userId": "5ef32004cfce7413f644eded"
 }
