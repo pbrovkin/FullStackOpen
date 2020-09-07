@@ -2,8 +2,8 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Novichok",
-    "author": "Vladimir Putin",
-    "url": "http://novichok.com/",
-    "likes": 88
+    "title": "Dallas",
+    "author": "ALex Rads",
+    "url": "http://stars.com/",
+    "likes": 77
 }
