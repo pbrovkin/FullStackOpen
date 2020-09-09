@@ -31,24 +31,17 @@ describe('when there is initially some blogs saved', () => {
         await blogObject.save()
     })
 
-    test('blogs are returned as json', async () => {
-        await api
-            .get('/api/blogs')
-            .expect(200)
-            .expect('Content-Type', /application\/json/)
-    })
-
     test('app returns the correct amount of blog posts', async () => {
         const response = await api.get('/api/blogs')
 
         expect(response.body).toHaveLength(initialBlogs.length)
     })
 
-    test('the first blog is about React patterns', async () => {
+    test('identifier property of the blog is named id', async () => {
         const response = await api.get('/api/blogs')
-
-        expect(response.body[0].title).toBe(initialBlogs[0].title)
+        response.body.map(blog => expect(blog.id).toBeDefined())
     })
+
 })
 
 afterAll(() => {
