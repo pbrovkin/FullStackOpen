@@ -6,34 +6,31 @@ blogsRouter.get('/', async (request, response) => {
     response.json(blogs.map(blog => blog.toJSON()))
 })
 
-blogsRouter.get('/:id', async (request, response, next) => {
-    try {
-        const blog = await Blog.findById(request.params.id)
-        if (blog) {
-            response.json(blog.toJSON())
-        } else {
-            response.status(404).end()
-        }
-    } catch (exception) {
-        next(exception)
+blogsRouter.get('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id)
+    if (blog) {
+        response.json(blog.toJSON())
+    } else {
+        response.status(404).end()
     }
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', async (request, response) => {
     const body = request.body
 
-    const blog = new Blog({
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes || 0,
-    })
-
-    try {
+    if (!body.title || !body.url) {
+        response.status(400).json({
+            error: 'title or url missing'
+        })
+    } else {
+        const blog = new Blog({
+            title: body.title,
+            author: body.author,
+            url: body.url,
+            likes: body.likes || 0,
+        })
         const savedBlog = await blog.save()
         response.json(savedBlog.toJSON())
-    } catch (exception) {
-        next(exception)
     }
 })
 
