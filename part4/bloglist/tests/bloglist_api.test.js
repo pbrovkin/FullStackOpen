@@ -116,6 +116,24 @@ describe('when there is initially some blogs saved', () => {
             expect(titles).not.toContain(blogToDelete.title)
         })
     })
+
+    describe('updating a blog', () => {
+        test('succeeds updating likes property for a blog post', async () => {
+            const blogs = await helper.blogsInDb()
+
+            const updatedBlog = {
+                likes: 34
+            }
+
+            await api
+                .put(`/api/blogs/${blogs[0].id}`)
+                .send(updatedBlog)
+                .expect(200)
+
+            const updatedBlogs = await helper.blogsInDb()
+            expect(updatedBlogs[0].likes).toBe(34)
+        })
+    })
 })
 
 afterAll(() => {
