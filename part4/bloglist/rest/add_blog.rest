@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "New New",
+    "author": "New New",
+    "url": "http://new.com/",
+    "likes": 44,
+    "userId": "5eeb4c07df1a9e24588a0bb0"
+}

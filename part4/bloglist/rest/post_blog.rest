@@ -1,9 +1,0 @@
-POST http://localhost:3001/api/blogs
-Content-Type: application/json
-
-{
-    "title": "Dallas",
-    "author": "ALex Rads",
-    "url": "http://stars.com/",
-    "likes": 77
-}
