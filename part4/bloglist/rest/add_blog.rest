@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhbHlvdmthIiwiaWQiOiI1ZjViODVlYzkzNTVjMDI5ZWM4M2FjZGQiLCJpYXQiOjE2MDAxNjc1NTh9.aHAz9GuhXjr7N_ewYUwpOvSRcJfOAaLpgqRewYAjy2E
 
 {
-    "title": "Novichok",
-    "author": "Vladimir Putin",
-    "url": "http://novichok.com/",
-    "likes": 66,
-    "userId": "5f5b85ec9355c029ec83acdd"
+    "title": "Test authorization",
+    "author": "Other User",
+    "url": "http://testauthorization.com/",
+    "likes": 44
 }
