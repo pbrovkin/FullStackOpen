@@ -13,7 +13,7 @@ const mongoose = require('mongoose')
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
   .then(() => {
     logger.info('connected to MongoDB')
   })
