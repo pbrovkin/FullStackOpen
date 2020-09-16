@@ -33,7 +33,7 @@ describe('when there is initially some blogs saved', () => {
         response.body.map(blog => expect(blog.id).toBeDefined())
     })
 
-    describe('addition of a new note', () => {
+    describe('addition of a new blog', () => {
         test('request creates a new blog post', async () => {
             const newBlog = {
                 title: 'Canonical string reduction',
