@@ -5,7 +5,7 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-    return blogs.map(blog => blog.likes).reduce((prev, curr) => prev + curr, 0)
+    return blogs.reduce((prev, curr) => prev + curr.likes, 0)
 }
 
 const favoriteBlog = (blogs) => {

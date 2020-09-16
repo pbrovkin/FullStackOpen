@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1ZjViODRiODkzNTVjMDI5ZWM4M2FjZGMiLCJpYXQiOjE2MDAxOTg2MDN9.t3n3pXdR_RuAfXhtK-IkdqmWOxN4zm-zGZpyA9om7sw
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmVsIiwiaWQiOiI1ZjYyNTU0NTRhMDIxOTAzMDA4MTJhMmEiLCJpYXQiOjE2MDAyODAxNTV9.lo9xLFLVTc8N_1rQeHfUgEfo2an8W08XY7HhzwrC_LA
 
 {
-    "title": "Something else",
-    "author": "Something Else",
-    "url": "http://somethingelse.com/",
-    "likes": 44
+    "title": "Novichok",
+    "author": "Vladimir Putin",
+    "url": "http://novichok.com/",
+    "likes": 99
 }
