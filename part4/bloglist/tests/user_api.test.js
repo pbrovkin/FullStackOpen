@@ -57,7 +57,7 @@ describe('when there is initially one user at db', () => {
         expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
 
-    test('creation fails with proper statuscode and message if username is less than 3 characters long', async () => {
+    test('fails if username is less than 3 characters long', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -78,7 +78,7 @@ describe('when there is initially one user at db', () => {
         expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
 
-    test('creation fails with proper statuscode and message if password is less than 3 characters long', async () => {
+    test('fails if password is less than 3 characters long', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {

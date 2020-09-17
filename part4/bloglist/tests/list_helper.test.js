@@ -41,11 +41,10 @@ describe('favorite blog', () => {
 describe('author with the most blogs', () => {
     test('from bloglist', () => {
         const result = listHelper.mostBlogs(helper.initialBlogs)
-        expect(result).toEqual(
-            {
-                author: 'Robert C. Martin',
-                blogs: 3
-            })
+        expect(result).toEqual({
+            author: 'Robert C. Martin',
+            blogs: 3
+        })
     })
 })
 
