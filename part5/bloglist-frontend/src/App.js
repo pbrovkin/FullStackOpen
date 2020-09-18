@@ -9,7 +9,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -42,10 +42,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+    } catch (error) {
+      setMessage('error: ' + error.response.data.error)
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -60,10 +60,14 @@ const App = () => {
     try {
       const blog = await blogService.create(blogObject)
       setBlogs(blogs.concat(blog))
-    } catch (error) {
-      setErrorMessage('error: ' + error.response.data.error)
+      setMessage(`new blog '${blog.title}' by ${blog.author} added`)
       setTimeout(() => {
-        setErrorMessage('')
+        setMessage(null)
+      }, 3000)
+    } catch (error) {
+      setMessage('error: ' + error.response.data.error)
+      setTimeout(() => {
+        setMessage(null)
       }, 3000)
     }
   }
@@ -73,7 +77,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <Notification message={message} />
         <LoginForm
           handleSubmit={handleLogin}
           username={username}
@@ -89,7 +93,7 @@ const App = () => {
     <div>
       <LogoutForm user={user} handleLogout={handleLogout} />
       <h2>blogs</h2>
-      <Notification message={errorMessage} />
+      <Notification message={message} />
       <AddBlogForm handleSubmit={addBlog} />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
