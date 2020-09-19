@@ -29,6 +29,12 @@ const App = () => {
     }
   }, [])
 
+  const delMessage = () => {
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -44,9 +50,7 @@ const App = () => {
       setPassword('')
     } catch (error) {
       setMessage('error: ' + error.response.data.error)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      delMessage()
     }
   }
 
@@ -61,14 +65,10 @@ const App = () => {
       const blog = await blogService.create(blogObject)
       setBlogs(blogs.concat(blog))
       setMessage(`new blog '${blog.title}' by ${blog.author} added`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 3000)
+      delMessage()
     } catch (error) {
       setMessage('error: ' + error.response.data.error)
-      setTimeout(() => {
-        setMessage(null)
-      }, 3000)
+      delMessage()
     }
   }
 
