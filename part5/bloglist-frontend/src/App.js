@@ -3,7 +3,8 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutForm from './components/LogoutForm'
 import Notification from './components/Notification'
-import AddBlogForm from './components/AddBlogForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -78,13 +79,14 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         <Notification message={message} />
-        <LoginForm
-          handleSubmit={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
+        <Togglable buttonLabel='login'>
+          <LoginForm
+            username={username}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+        </Togglable>
       </div>
     )
   }
@@ -94,10 +96,14 @@ const App = () => {
       <LogoutForm user={user} handleLogout={handleLogout} />
       <h2>blogs</h2>
       <Notification message={message} />
-      <AddBlogForm handleSubmit={addBlog} />
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <Togglable buttonLabel='new blog' >
+        <BlogForm handleSubmit={addBlog} />
+      </Togglable>
+      <div>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+      </div>
     </div>
   )
 }

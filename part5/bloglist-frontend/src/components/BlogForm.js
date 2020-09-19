@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const AddBlogForm = ({ handleSubmit }) => {
+const BlogForm = ({ handleSubmit }) => {
 
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -22,7 +22,7 @@ const AddBlogForm = ({ handleSubmit }) => {
         <form onSubmit={addBlog}>
             <div>
                 title
-        <input
+                <input
                     type="text"
                     value={title}
                     name="Title"
@@ -31,7 +31,7 @@ const AddBlogForm = ({ handleSubmit }) => {
             </div>
             <div>
                 author
-        <input
+                <input
                     type="text"
                     value={author}
                     name="Author"
@@ -40,7 +40,7 @@ const AddBlogForm = ({ handleSubmit }) => {
             </div>
             <div>
                 url
-        <input
+                <input
                     type="text"
                     value={url}
                     name="Url"
@@ -52,4 +52,4 @@ const AddBlogForm = ({ handleSubmit }) => {
     )
 }
 
-export default AddBlogForm
+export default BlogForm
