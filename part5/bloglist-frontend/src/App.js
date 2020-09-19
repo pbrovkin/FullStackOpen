@@ -15,6 +15,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const blogFormRef = React.createRef()
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -63,6 +65,7 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     try {
+      blogFormRef.current.toggleVisibility()
       const blog = await blogService.create(blogObject)
       setBlogs(blogs.concat(blog))
       setMessage(`new blog '${blog.title}' by ${blog.author} added`)
@@ -96,7 +99,7 @@ const App = () => {
       <LogoutForm user={user} handleLogout={handleLogout} />
       <h2>blogs</h2>
       <Notification message={message} />
-      <Togglable buttonLabel='new blog' >
+      <Togglable buttonLabel='new blog' ref={blogFormRef} >
         <BlogForm handleSubmit={addBlog} />
       </Togglable>
       <div>

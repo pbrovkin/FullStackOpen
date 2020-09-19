@@ -19,6 +19,8 @@ const BlogForm = ({ handleSubmit }) => {
     }
 
     return (
+        <div>
+        <h2>Create a new note</h2>
         <form onSubmit={addBlog}>
             <div>
                 title
@@ -49,6 +51,7 @@ const BlogForm = ({ handleSubmit }) => {
             </div>
             <button type="submit">save</button>
         </form>
+        </div>
     )
 }
 
