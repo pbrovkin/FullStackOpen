@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const BlogForm = ({ handleSubmit }) => {
+const BlogForm = ({ createNote }) => {
 
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -20,7 +20,7 @@ const BlogForm = ({ handleSubmit }) => {
 
     const addBlog = (event) => {
         event.preventDefault()
-        handleSubmit({
+        createNote({
             title: title,
             author: author,
             url: url,
