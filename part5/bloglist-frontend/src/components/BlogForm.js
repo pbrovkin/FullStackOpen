@@ -6,6 +6,18 @@ const BlogForm = ({ handleSubmit }) => {
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value)
+    }
+
+    const handleAuthorChange = (event) => {
+        setAuthor(event.target.value)
+    }
+
+    const handleUrlChange = (event) => {
+        setUrl(event.target.value)
+    }
+
     const addBlog = (event) => {
         event.preventDefault()
         handleSubmit({
@@ -20,37 +32,37 @@ const BlogForm = ({ handleSubmit }) => {
 
     return (
         <div>
-        <h2>Create a new note</h2>
-        <form onSubmit={addBlog}>
-            <div>
-                title
-                <input
-                    type="text"
-                    value={title}
-                    name="Title"
-                    onChange={({ target }) => setTitle(target.value)}
-                />
-            </div>
-            <div>
-                author
-                <input
-                    type="text"
-                    value={author}
-                    name="Author"
-                    onChange={({ target }) => setAuthor(target.value)}
-                />
-            </div>
-            <div>
-                url
-                <input
-                    type="text"
-                    value={url}
-                    name="Url"
-                    onChange={({ target }) => setUrl(target.value)}
-                />
-            </div>
-            <button type="submit">save</button>
-        </form>
+            <form onSubmit={addBlog}>
+                <h2>Create a new note</h2>
+                <div>
+                    title
+                    <input
+                        type="text"
+                        value={title}
+                        name="Title"
+                        onChange={handleTitleChange}
+                    />
+                </div>
+                <div>
+                    author
+                    <input
+                        type="text"
+                        value={author}
+                        name="Author"
+                        onChange={handleAuthorChange}
+                    />
+                </div>
+                <div>
+                    url
+                    <input
+                        type="text"
+                        value={url}
+                        name="Url"
+                        onChange={handleUrlChange}
+                    />
+                </div>
+                <button type="submit">save</button>
+            </form>
         </div>
     )
 }
