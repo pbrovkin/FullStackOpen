@@ -64,16 +64,19 @@ const App = () => {
   }
 
   const addBlog = async (blogObject) => {
-    try {
-      blogFormRef.current.toggleVisibility()
-      const blog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(blog))
-      setMessage(`new blog '${blog.title}' by ${blog.author} added`)
-      delMessage()
-    } catch (error) {
-      setMessage('error: ' + error.response.data.error)
-      delMessage()
-    }
+    blogFormRef.current.toggleVisibility()
+    const blog = await blogService.create(blogObject)
+    setBlogs(blogs.concat(blog))
+    setMessage(`new blog '${blog.title}' by ${blog.author} added`)
+    delMessage()
+  }
+
+  const addLike = async (blogObject) => {
+    const likedBlog = await blogService.update(blogObject.id, blogObject)
+    const newBlogs = blogs.map(b => (b.id !== blogObject.id ? b : likedBlog))
+    setBlogs(newBlogs)
+    setMessage(`You liked the post about '${likedBlog.title}' by ${likedBlog.author}`)
+    delMessage()
   }
 
 
@@ -104,7 +107,7 @@ const App = () => {
       </Togglable>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} addLike={addLike} />
         )}
       </div>
     </div>

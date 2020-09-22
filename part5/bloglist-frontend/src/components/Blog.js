@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike }) => {
     const [specs, setSpecs] = useState(false)
 
     const blogStyle = {
@@ -9,6 +9,15 @@ const Blog = ({ blog }) => {
         border: 'solid',
         borderWidth: 1,
         marginBottom: 5
+    }
+
+    const handleAddLike = (event) => {
+        event.preventDefault()
+        addLike({
+            ...blog,
+            user: blog.user.id,
+            likes: ++blog.likes
+        })
     }
 
     return (
@@ -24,7 +33,7 @@ const Blog = ({ blog }) => {
                     <p><a href={blog.url}>{blog.url}</a></p>
                     <p>
                         {blog.likes} likes
-                        <button>like</button>
+                        <button onClick={handleAddLike}>like</button>
                     </p>
                     <p>added by {blog.user.name}</p>
                 </>
