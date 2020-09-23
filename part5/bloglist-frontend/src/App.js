@@ -65,26 +65,33 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    const blog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(blog))
-    setMessage(`new blog '${blog.title}' by ${blog.author} added`)
+    await blogService.create(blogObject)
+    const updatedBlogs = await blogService.getAll()
+    setBlogs(updatedBlogs)
+    setMessage(`added '${blogObject.title}' by ${blogObject.author} `)
     delMessage()
   }
 
   const addLike = async (blogObject) => {
-    const likedBlog = await blogService.update(blogObject.id, blogObject)
-    setBlogs(blogs.map(b => b.id !== blogObject.id ? b : likedBlog))
-    setMessage(`you liked the post '${likedBlog.title}' by ${likedBlog.author}`)
+    await blogService.update(blogObject.id, blogObject)
+    const updatedBlogs = await blogService.getAll()
+    setBlogs(updatedBlogs)
+    setMessage(`liked '${blogObject.title}' by ${blogObject.author}`)
     delMessage()
   }
 
   const removeBlog = async (id) => {
-    const deletedBlog = await blogService.remove(id)
-    setBlogs(blogs.filter(b => b.id !== id))
-    setMessage(`you removed the post '${deletedBlog.title}'`)
+    const blog = blogs.find(b => b.id === id)
+    await blogService.remove(id)
+    const updatedBlogs = await blogService.getAll()
+    setBlogs(updatedBlogs)
+    setMessage(`removed '${blog.title}' by ${blog.author}`)
     delMessage()
   }
 
+  const blogsDivStyle = {
+    marginTop: 7
+  }
 
   if (user === null) {
     return (
@@ -111,7 +118,7 @@ const App = () => {
       <Togglable buttonLabel='new blog' ref={blogFormRef} >
         <BlogForm createBlog={addBlog} />
       </Togglable>
-      <div>
+      <div style={blogsDivStyle}>
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
           <Blog key={blog.id} blog={blog} user={user} addLike={addLike} removeBlog={removeBlog} />
         )}

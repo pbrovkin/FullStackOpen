@@ -11,6 +11,10 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
         marginBottom: 5
     }
 
+    const buttonStyle = {
+        marginLeft: 7
+    }
+
     const handleAddLike = (event) => {
         event.preventDefault()
         addLike({
@@ -27,30 +31,34 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
         }
     }
 
-    return (
-        <div onClick={() => setSpecs(!specs)} style={blogStyle}>
+    const Specs = () => (
+        <>
+            <p><a href={blog.url}>{blog.url}</a></p>
             <p>
+                {blog.likes} likes
+                <button onClick={handleAddLike} style={buttonStyle}>
+                    like
+                </button>
+            </p>
+            <p>added by {blog.user.name}</p>
+            <p>
+                {user.username === blog.user.username || user.name === blog.user.name ?
+                    <button onClick={handleRemoveBlog}>remove</button>
+                    : null}
+            </p>
+        </>
+    )
+
+    return (
+        <div style={blogStyle}>
+            <p onClick={() => setSpecs(!specs)}>
                 {blog.title} / {blog.author}
-                <button onClick={() => setSpecs(!specs)}>
+                <button onClick={() => setSpecs(!specs)} style={buttonStyle}>
                     {specs ? 'hide' : 'view'}
                 </button>
             </p>
-            {specs ? (
-                <>
-                    <p><a href={blog.url}>{blog.url}</a></p>
-                    <p>
-                        {blog.likes} likes
-                        <button onClick={handleAddLike}>like</button>
-                    </p>
-                    <p>added by {blog.user.name}</p>
-                    <p>
-                        {user.username === blog.user.username || user.name === blog.user.name ?
-                            <button onClick={handleRemoveBlog}>remove</button>
-                            : null}
-                    </p>
-                </>
-            ) : null}
-        </div>
+            {specs === false ? null : <Specs />}
+        </div >
     )
 }
 

@@ -29,11 +29,15 @@ const BlogForm = ({ createBlog }) => {
         setUrl('')
     }
 
+    const blogFormStyle = {
+        marginBottom: 5
+    }
+
     return (
         <div>
             <form onSubmit={addBlog}>
-                <h2>Create a new note</h2>
-                <div>
+                <h3>create a new blog</h3>
+                <div style={blogFormStyle}>
                     title
                     <input
                         type="text"
@@ -42,7 +46,7 @@ const BlogForm = ({ createBlog }) => {
                         onChange={handleTitleChange}
                     />
                 </div>
-                <div>
+                <div style={blogFormStyle}>
                     author
                     <input
                         type="text"
@@ -51,7 +55,7 @@ const BlogForm = ({ createBlog }) => {
                         onChange={handleAuthorChange}
                     />
                 </div>
-                <div>
+                <div style={blogFormStyle}>
                     url
                     <input
                         type="text"
@@ -60,7 +64,7 @@ const BlogForm = ({ createBlog }) => {
                         onChange={handleUrlChange}
                     />
                 </div>
-                <button type="submit">save</button>
+                <button type="submit" style={blogFormStyle}>save</button>
             </form>
         </div>
     )
