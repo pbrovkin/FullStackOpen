@@ -100,10 +100,11 @@ const App = () => {
         <Notification message={message} />
         <Togglable buttonLabel='login'>
           <LoginForm
-            username={username}
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
+            username={username}
+            password={password}
           />
         </Togglable>
       </div>
