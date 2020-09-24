@@ -47,7 +47,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
   )
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       <p onClick={() => setSpecs(!specs)}>
         {blog.title} / {blog.author}
         <button onClick={() => setSpecs(!specs)} style={buttonStyle}>
