@@ -40,7 +40,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
       </p>
       <p>added by {blog.user.name}</p>
       <p>
-        {user.username === blog.user.username || user.name === blog.user.name ?
+        {user.username === blog.user.username ?
           <button onClick={handleRemoveBlog}>remove</button> : null}
       </p>
     </>
