@@ -1,6 +1,6 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -22,9 +22,11 @@ describe('<Blog />', () => {
     name: 'Pavel Durov'
   }
 
+  const addLike = jest.fn()
+
   beforeEach(() => {
     component = render(
-      <Blog blog={blog} user={user}/>
+      <Blog blog={blog} user={user} addLike={addLike} />
     )
   })
 
@@ -44,6 +46,15 @@ describe('<Blog />', () => {
     expect(blogDiv).toHaveTextContent('Blog Author')
     expect(blogDiv).toHaveTextContent('http://localhost:3000/')
     expect(blogDiv).toHaveTextContent('0 likes')
+  })
+
+  test('if the like button is clicked twice the event handler is called twice', () => {
+    const viewButton = component.container.querySelector('button')
+    fireEvent.click(viewButton)
+    const likeButton = component.getByText('like')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+    expect(addLike.mock.calls).toHaveLength(2)
   })
 })
 
