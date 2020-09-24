@@ -8,10 +8,7 @@ test('renders title and author, not orl or likes', () => {
     title: 'Component testing',
     author: 'Blog Author',
     url: 'http://localhost:3000/',
-    likes: 0,
-    user: {
-      name: 'Pavel Durov'
-    }
+    likes: 0
   }
 
   const component = render(
