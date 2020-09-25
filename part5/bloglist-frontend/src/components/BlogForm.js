@@ -40,27 +40,24 @@ const BlogForm = ({ createBlog }) => {
         <div style={blogFormStyle}>
           title
           <input
-            type="text"
+            id='title'
             value={title}
-            name="Title"
             onChange={handleTitleChange}
           />
         </div>
         <div style={blogFormStyle}>
           author
           <input
-            type="text"
+            id='author'
             value={author}
-            name="Author"
             onChange={handleAuthorChange}
           />
         </div>
         <div style={blogFormStyle}>
           url
           <input
-            type="text"
+            id='url'
             value={url}
-            name="Url"
             onChange={handleUrlChange}
           />
         </div>
