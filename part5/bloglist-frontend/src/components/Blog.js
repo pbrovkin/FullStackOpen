@@ -35,7 +35,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
     <>
       <p><a href={blog.url}>{blog.url}</a></p>
       <p>
-        {blog.likes} likes
+        {blog.likes} {blog.likes === 1 ? 'like' : 'likes'}
         <button onClick={handleAddLike} style={buttonStyle}>like</button>
       </p>
       <p>added by {blog.user.name}</p>

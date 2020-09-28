@@ -1,4 +1,4 @@
-describe('Blog app', function () {
+describe('Blogs app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3001/api/testing/reset')
     const user = {
@@ -38,19 +38,30 @@ describe('Blog app', function () {
 
   describe.only('When logged in', function () {
     beforeEach(function () {
-      cy.contains('login').click()
-      cy.get('#username').type('mluukkai')
-      cy.get('#password').type('salainen')
-      cy.get('#login-button').click()
+      cy.login({ username: 'mluukkai', password: 'salainen' })
     })
 
-    it('A blog can be created', function () {
+    it('a blog can be created', function () {
       cy.contains('new blog').click()
-      cy.get('input[id="title"]').type('A blog created by cypress')
+      cy.get('input[id="title"]').type('a blog created by cypress')
       cy.get('input[id="author"]').type('Testing Author')
       cy.get('input[id="url"]').type('http://localhost:3000')
       cy.contains('save').click()
-      cy.contains('A blog created by cypress / Testing Author')
+      cy.contains('a blog created by cypress / Testing Author')
+    })
+
+    describe('and a blog exists', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'First blog', author: 'First Author', url: 'http://first.com' })
+        cy.createBlog({ title: 'Second blog', author: 'Second Author', url: 'http://second.com' })
+        cy.createBlog({ title: 'Third blog', author: 'Third Author', url: 'http://third.com' })
+      })
+
+      it('user can like a blog', function () {
+        cy.contains('Second blog').contains('view').click()
+        cy.contains('like').click()
+        cy.contains('1 like')
+      })
     })
   })
 })
