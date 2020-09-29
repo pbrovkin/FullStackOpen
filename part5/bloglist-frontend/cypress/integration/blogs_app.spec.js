@@ -52,9 +52,21 @@ describe('Blogs app', function () {
 
     describe('and a blog exists', function () {
       beforeEach(function () {
-        cy.createBlog({ title: 'first blog', author: 'First Author', url: 'http://first.com' })
-        cy.createBlog({ title: 'second blog', author: 'Second Author', url: 'http://second.com' })
-        cy.createBlog({ title: 'third blog', author: 'Third Author', url: 'http://third.com' })
+        cy.createBlog({
+          title: 'first blog',
+          author: 'First Author',
+          url: 'http://first.com'
+        })
+        cy.createBlog({
+          title: 'second blog',
+          author: 'Second Author',
+          url: 'http://second.com'
+        })
+        cy.createBlog({
+          title: 'third blog',
+          author: 'Third Author',
+          url: 'http://third.com'
+        })
       })
 
       it('user can like a blog', function () {
@@ -72,6 +84,23 @@ describe('Blogs app', function () {
           .should('have.css', 'color', 'rgb(0, 128, 0)')
         cy.contains('first blog').should('not.exist')
         cy.get('html').should('not.contain', 'first blog / First Author')
+      })
+
+      it('blogs organized by like count', function () {
+        cy.contains('second blog').as('second').click()
+        cy.get('@second').parent().contains('like').click()
+        cy.get('@second').click()
+
+        cy.contains('third blog').as('third').click()
+        cy.get('@third').parent().contains('like').click()
+        cy.get('@third').parent().contains('like').click()
+        cy.get('@third').click()
+
+        cy.get('.blog').should((blogs) => {
+          expect(blogs[0]).to.contain.text('third blog / Third Author')
+          expect(blogs[1]).to.contain.text('second blog / Second Author')
+          expect(blogs[2]).to.contain.text('first blog / First Author')
+        })
       })
     })
   })
