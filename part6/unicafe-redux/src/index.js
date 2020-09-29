@@ -11,21 +11,24 @@ store.subscribe(() => {
 })
 
 const App = () => {
-  const good = () => {
-    store.dispatch({
-      type: 'GOOD'
-    })
+
+  const action = (type) => {
+    return () => {
+      store.dispatch({
+        type
+      })
+    }
   }
 
   return (
     <div>
-      <button onClick={good}>good</button>
-      <button>neutral</button>
-      <button>bad</button>
-      <button>reset stats</button>
+      <button onClick={action('GOOD')}>good</button>
+      <button onClick={action('OK')}>neutral</button>
+      <button onClick={action('BAD')}>bad</button>
+      <button onClick={action('ZERO')}>reset stats</button>
       <div>good {store.getState().good}</div>
-      <div>neutral</div>
-      <div>bad</div>
+      <div>neutral {store.getState().ok}</div>
+      <div>bad {store.getState().bad}</div>
     </div>
   )
 }
