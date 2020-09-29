@@ -5,6 +5,11 @@ import reducer from './reducer'
 
 const store = createStore(reducer)
 
+store.subscribe(() => {
+  const storeNow = store.getState()
+  console.log(storeNow)
+})
+
 const App = () => {
   const good = () => {
     store.dispatch({
