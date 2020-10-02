@@ -20,12 +20,15 @@ const Anecdote = ({ anecdote, handleClick }) => {
 const AnecdoteList = () => {
   const dispatch = useDispatch()
 
-  const anecdotes = useSelector(({ anecdotes, filter }) => {
-    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase())).sort((a, b) => b.votes - a.votes)
+  const anecdotes = useSelector(({ filter, anecdotes }) => {
+    if (filter === '') {
+      return anecdotes
+    }
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
   })
 
-  const addVote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote.id))
+  const addVote = async (anecdote) => {
+    dispatch(voteAnecdote(anecdote.id, { ...anecdote, votes: ++anecdote.votes }))
     dispatch(setNotification(`voted '${anecdote.content}'`))
     setTimeout(() => {
       dispatch(removeNotification())
