@@ -29,7 +29,7 @@ const AnecdoteList = () => {
 
   const addVote = async (anecdote) => {
     dispatch(voteAnecdote(anecdote.id, { ...anecdote, votes: ++anecdote.votes }))
-    dispatch(setNotification(`voted '${anecdote.content}'`, 5))
+    dispatch(setNotification(`You voted '${anecdote.content}'`, 5))
   }
 
   return (
