@@ -10,7 +10,7 @@ const anecdoteReducer = (state = [], action) => {
       const votedAnecdote = action.data
       return state.map(anecdote =>
         anecdote.id !== votedAnecdote.id ? anecdote : votedAnecdote
-      )
+      ).sort((a, b) => b.votes - a.votes)
     default:
       return state
   }
