@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { removeNotification } from '../reducers/notificationReducer'
 
 const Notification = (props) => {
-
-  useEffect(() => {
-    setTimeout(() => {
-      props.removeNotification()
-    }, props.timeout * 1000)
-  })
 
   const style = {
     border: 'solid',
@@ -30,8 +24,7 @@ const Notification = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    notification: state.notification.content,
-    timeout: state.notification.timeout
+    notification: state.notification.content
   }
 }
 
