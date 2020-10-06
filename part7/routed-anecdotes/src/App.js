@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import {
   Switch,
   Route,
-  Link,
-  useRouteMatch,
+  Link
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -15,17 +14,6 @@ const Menu = () => {
       <Link style={padding} to='/'>anecdotes</Link>
       <Link style={padding} to='/create'>create new</Link>
       <Link style={padding} to='/about'>about</Link>
-    </div>
-  )
-}
-
-const Anecdote = ({ anecdote }) => {
-  return (
-    <div>
-      <div>{anecdote.content}</div>
-      <div>{anecdote.author}</div>
-      <div>{anecdote.info}</div>
-      <div>{anecdote.votes}</div>
     </div>
   )
 }
@@ -143,19 +131,11 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  const match = useRouteMatch('/anecdotes/:id')
-  const anecdote = match
-    ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
-    : null
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
-        <Route path='/anecdotes/:id'>
-          <Anecdote anecdote={anecdote} />
-        </Route>
         <Route path='/create'>
           <CreateNew addNew={addNew} />
         </Route>
