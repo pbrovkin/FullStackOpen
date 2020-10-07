@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import {
   Switch,
   Route,
-  Link
+  Link,
+  useRouteMatch
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -14,6 +15,18 @@ const Menu = () => {
       <Link style={padding} to='/'>anecdotes</Link>
       <Link style={padding} to='/create'>create new</Link>
       <Link style={padding} to='/about'>about</Link>
+    </div>
+  )
+}
+
+const Anecdote = ({ anecdote }) => {
+  return (
+    <div>
+      <h3>{anecdote.content} by {anecdote.author}</h3>
+      <p>has {anecdote.votes} votes</p>
+      <p>for more info see <a href={anecdote.info} target='_blank' rel='noopener noreferrer'>
+        {anecdote.info}</a>
+      </p>
     </div>
   )
 }
@@ -117,8 +130,10 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdoteById = match
+    ? anecdotes.find(anecdote => anecdote.id === match.params.id)
+    : null
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -136,6 +151,9 @@ const App = () => {
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
+        <Route path='/anecdotes/:id'>
+          <Anecdote anecdote={anecdoteById} />
+        </Route>
         <Route path='/create'>
           <CreateNew addNew={addNew} />
         </Route>
