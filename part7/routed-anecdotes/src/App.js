@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   Link,
+  useHistory,
   useRouteMatch
 } from 'react-router-dom'
 
@@ -71,6 +72,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -80,9 +82,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
-    setContent('')
-    setAuthor('')
-    setInfo('')
+    history.push('/')
   }
 
   return (
