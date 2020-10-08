@@ -7,6 +7,18 @@
     {
       "content": "paras feature ikinä <3",
       "id": 2
+    },
+    {
+      "content": "testing note",
+      "id": 3
+    },
+    {
+      "content": "another note",
+      "id": 4
+    },
+    {
+      "content": "new note",
+      "id": 5
     }
   ],
   "persons": [
@@ -14,6 +26,21 @@
       "name": "mluukkai",
       "number": "040-5483923",
       "id": 1
+    },
+    {
+      "name": "testing person",
+      "number": "040404040",
+      "id": 2
+    },
+    {
+      "name": "another person",
+      "number": "050505050",
+      "id": 3
+    },
+    {
+      "name": "new contact",
+      "number": "044044044",
+      "id": 4
     }
   ]
 }
