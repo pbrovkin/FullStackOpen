@@ -21,7 +21,11 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
       </div>
       {visible && (
         <div>
-          <div>{blog.url}</div>
+          <div>
+            <a href={blog.url} target='_blank' rel='noopener noreferrer'>
+              {blog.url}
+            </a>
+          </div>
           <div>likes {blog.likes}
             <button onClick={() => handleLike(blog.id)}>like</button>
           </div>

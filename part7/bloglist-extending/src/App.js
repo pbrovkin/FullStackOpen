@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setNotification, removeNotification } from './reducers/notificationReducer'
+
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -9,11 +12,14 @@ import loginService from './services/login'
 import storage from './utils/storage'
 
 const App = () => {
+  const dispatch = useDispatch()
+
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [notification, setNotification] = useState(null)
+
+  const notification = useSelector(state => state)
 
   const blogFormRef = React.createRef()
 
@@ -29,11 +35,9 @@ const App = () => {
   }, [])
 
   const notifyWith = (message, type = 'success') => {
-    setNotification({
-      message, type
-    })
+    dispatch(setNotification(message, type))
     setTimeout(() => {
-      setNotification(null)
+      dispatch(removeNotification())
     }, 5000)
   }
 
@@ -106,6 +110,7 @@ const App = () => {
             password
             <input
               id='password'
+              type='password'
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
