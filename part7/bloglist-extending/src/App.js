@@ -106,6 +106,7 @@ const App = () => {
             password
             <input
               id='password'
+              type='password'
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
