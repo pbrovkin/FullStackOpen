@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setNotification } from './reducers/notificationReducer'
+import { setUser } from './reducers/userReducer'
 import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
+import { setNotification } from './reducers/notificationReducer'
 
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -19,10 +20,10 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [dispatch])
 
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
   const notification = useSelector(state => state.notification)
 
