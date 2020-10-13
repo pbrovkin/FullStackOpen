@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setNotification, removeNotification } from './reducers/notificationReducer'
+import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 
 import Blog from './components/Blog'
@@ -15,9 +15,9 @@ import storage from './utils/storage'
 
 const App = () => {
   const dispatch = useDispatch()
+
   useEffect(() => {
-    blogService
-      .getAll().then(blogs => dispatch(initializeBlogs(blogs)))
+    dispatch(initializeBlogs())
   }, [dispatch])
 
   const [user, setUser] = useState(null)
@@ -36,9 +36,6 @@ const App = () => {
 
   const notifyWith = (message, type = 'success') => {
     dispatch(setNotification(message, type))
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
   }
 
   const handleLogin = async (event) => {
@@ -47,7 +44,6 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
-
       setUsername('')
       setPassword('')
       setUser(user)
@@ -123,7 +119,7 @@ const App = () => {
       </p>
 
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-        <NewBlog />
+        <NewBlog notifyWith={notifyWith} />
       </Togglable>
 
       {blogs.sort(byLikes).map(blog =>

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
-import blogService from '../services/blogs'
 
-const NewBlog = () => {
+const NewBlog = ({ notifyWith }) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -15,8 +14,8 @@ const NewBlog = () => {
     setTitle('')
     setAuthor('')
     setUrl('')
-    const newBlog = await blogService.create({ title, author, url })
-    dispatch(createBlog(newBlog))
+    dispatch(createBlog({ title, author, url }))
+    notifyWith(`You added '${title}' by ${author}`)
   }
 
   return (
