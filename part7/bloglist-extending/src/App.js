@@ -31,8 +31,8 @@ const App = () => {
 
   useEffect(() => {
     const user = storage.loadUser()
-    setUser(user)
-  }, [])
+    dispatch(setUser(user))
+  }, [dispatch])
 
   const notifyWith = (message, type = 'success') => {
     dispatch(setNotification(message, type))
@@ -46,7 +46,7 @@ const App = () => {
       })
       setUsername('')
       setPassword('')
-      setUser(user)
+      dispatch(setUser(user))
       notifyWith(`${user.name} welcome back!`)
       storage.saveUser(user)
     } catch (exception) {
@@ -71,7 +71,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(setUser(null))
     storage.logoutUser()
   }
 
