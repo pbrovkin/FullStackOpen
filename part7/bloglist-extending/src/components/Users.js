@@ -6,6 +6,10 @@ const Users = ({ users }) => {
     textAlign: 'left'
   }
 
+  const tdStyle = {
+    textAlign: 'center'
+  }
+
   return (
     <div>
       <h2>Users</h2>
@@ -20,7 +24,7 @@ const Users = ({ users }) => {
           {users.map(user =>
             <tr key={user.id}>
               <td>{user.name}</td>
-              <td>{user.blogs.length}</td>
+              <td style={tdStyle}>{user.blogs.length}</td>
             </tr>
           )}
         </tbody>
