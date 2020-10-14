@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useRouteMatch
 } from 'react-router-dom'
 
 import { setNotification } from './reducers/notificationReducer'
@@ -11,11 +10,12 @@ import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
-import Users from './components/Users'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import Users from './components/Users'
+import User from './components/User'
 
 import loginService from './services/login'
 
@@ -85,6 +85,11 @@ const App = () => {
     storage.logoutUser()
   }
 
+  const matchUser = useRouteMatch('/users/:id')
+  const userById = matchUser
+    ? users.find(user => user.id === matchUser.params.id)
+    : null
+
   if (!user) {
     return (
       <div>
@@ -123,36 +128,34 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <div>
       <div>
-        <Link style={padding} to='/'>home</Link>
+        <Link style={padding} to='/'>blogs</Link>
         <Link style={padding} to='/users'>users</Link>
       </div>
 
+      <div>
+        <h2>blogs</h2>
+        <Notification notification={notification} />
+        <p>
+          {user.name} logged in <button onClick={handleLogout}>logout</button>
+        </p>
+      </div>
+
       <Switch>
+        <Route path='/users/:id'>
+          <User user={userById} />
+        </Route>
 
         <Route path='/users'>
-          <h2>blogs</h2>
-          <p>
-            {user.name} logged in <button onClick={handleLogout}>logout</button>
-          </p>
           <Users users={users} />
         </Route>
 
         <Route path='/'>
           <div>
-            <h2>blogs</h2>
-
-            <Notification notification={notification} />
-
-            <p>
-              {user.name} logged in <button onClick={handleLogout}>logout</button>
-            </p>
-
             <Togglable buttonLabel='create new blog' ref={blogFormRef}>
               <NewBlog notifyWith={notifyWith} />
             </Togglable>
-
             {blogs.sort(byLikes).map(blog =>
               <Blog
                 key={blog.id}
@@ -165,7 +168,7 @@ const App = () => {
           </div>
         </Route>
       </Switch>
-    </Router>
+    </div>
   )
 }
 
