@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from './reducers/userReducer'
-import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
-import { setNotification } from './reducers/notificationReducer'
 
+import { setNotification } from './reducers/notificationReducer'
+import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
+import { initializeUsers } from './reducers/usersReducer'
+
+import Users from './components/Users'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -18,14 +21,16 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const user = useSelector(state => state.user)
-  const blogs = useSelector(state => state.blogs)
   const notification = useSelector(state => state.notification)
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
 
   const blogFormRef = React.createRef()
 
@@ -121,6 +126,8 @@ const App = () => {
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
         <NewBlog notifyWith={notifyWith} />
       </Togglable>
+
+      <Users users={users} />
 
       {blogs.sort(byLikes).map(blog =>
         <Blog

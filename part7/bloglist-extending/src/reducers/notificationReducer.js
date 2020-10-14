@@ -41,19 +41,3 @@ export const removeNotification = () => {
 }
 
 export default notificationReducer
-
-/* export const setNotification = (message, type) => {
-  return {
-    type: 'SET_NOTIFICATION',
-    data: {
-      message,
-      type
-    }
-  }
-} */
-
-/* export const removeNotification = () => {
-  return {
-    type: 'REMOVE_NOTIFICATION'
-  }
-} */

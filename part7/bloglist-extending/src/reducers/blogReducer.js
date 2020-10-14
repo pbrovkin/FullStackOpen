@@ -44,6 +44,7 @@ export const likeBlog = (object) => {
       type: 'LIKE_BLOG',
       data: likedBlog
     })
+    dispatch(initializeBlogs())
   }
 }
 
