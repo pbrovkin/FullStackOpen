@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
@@ -16,8 +17,9 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
 
   return (
     <div style={blogStyle} className='blog'>
-      <div>
-        <i>{blog.title}</i> by {blog.author} <button onClick={() => setVisible(!visible)}>{label}</button>
+      <div onClick={() => setVisible(!visible)}>
+        <i><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></i> by {blog.author} 
+        <button onClick={() => setVisible(!visible)}>{label}</button>
       </div>
       {visible && (
         <div>
@@ -29,7 +31,7 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
           <div>likes {blog.likes}
             <button onClick={() => handleLike(blog.id)}>like</button>
           </div>
-          <div>{blog.user.name}</div>
+          <div>added by {blog.user.name}</div>
           {own && <button onClick={() => handleRemove(blog.id)}>remove</button>}
         </div>
       )}

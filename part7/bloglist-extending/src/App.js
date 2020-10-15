@@ -16,6 +16,7 @@ import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import Users from './components/Users'
 import User from './components/User'
+import BlogView from './components/BlogView'
 
 import loginService from './services/login'
 
@@ -90,6 +91,11 @@ const App = () => {
     ? users.find(user => user.id === matchUser.params.id)
     : null
 
+  const matchBlog = useRouteMatch('/blogs/:id')
+  const blogById = matchBlog
+    ? blogs.find(blog => blog.id === matchBlog.params.id)
+    : null
+
   if (!user) {
     return (
       <div>
@@ -143,6 +149,10 @@ const App = () => {
       </div>
 
       <Switch>
+        <Route path='/blogs/:id'>
+          <BlogView blog={blogById} handleLike={handleLike} />
+        </Route>
+
         <Route path='/users/:id'>
           <User user={userById} />
         </Route>
