@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  Switch, Route, Link, useRouteMatch
+  Switch, Route, Link, useRouteMatch, useHistory
 } from 'react-router-dom'
 
 import { setNotification } from './reducers/notificationReducer'
@@ -72,11 +72,14 @@ const App = () => {
     notifyWith(`You liked '${blogToLike.title}' by ${blogToLike.author}`)
   }
 
+  const history = useHistory()
+
   const handleRemove = async (id) => {
     const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
       dispatch(removeBlog(id))
+      history.push('/')
       notifyWith(`You removed '${blogToRemove.title}' by ${blogToRemove.author}`)
     }
   }
@@ -150,7 +153,11 @@ const App = () => {
 
       <Switch>
         <Route path='/blogs/:id'>
-          <BlogView blog={blogById} handleLike={handleLike} />
+          <BlogView blog={blogById}
+            handleLike={handleLike}
+            handleRemove={handleRemove}
+            user={user}
+          />
         </Route>
 
         <Route path='/users/:id'>
@@ -170,9 +177,6 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                handleLike={handleLike}
-                handleRemove={handleRemove}
-                own={user.username === blog.user.username}
               />
             )}
           </div>

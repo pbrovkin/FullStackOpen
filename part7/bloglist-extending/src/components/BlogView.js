@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BlogView = ({ blog, handleLike }) => {
+const BlogView = ({ blog, handleLike, handleRemove, user }) => {
   if (!blog) {
     return null
   }
@@ -18,6 +18,7 @@ const BlogView = ({ blog, handleLike }) => {
         <button onClick={() => handleLike(blog.id)}>like</button>
       </div>
       <div>added by {blog.user.name}</div>
+      {user.username === blog.user.username && <button onClick={() => handleRemove(blog.id)}>remove</button>}
     </div>
   )
 }
