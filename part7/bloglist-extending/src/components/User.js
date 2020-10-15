@@ -4,6 +4,7 @@ const User = ({ user }) => {
   if (!user) {
     return null
   }
+  
   return (
     <div>
       <h3>{user.name}</h3>
