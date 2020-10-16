@@ -7,6 +7,7 @@ import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import { initializeComments } from './reducers/commentReducer'
 import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -29,6 +30,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
     dispatch(initializeUsers())
+    dispatch(initializeComments())
   }, [dispatch])
 
   const [username, setUsername] = useState('')
@@ -38,6 +40,7 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
+  const comments = useSelector(state => state.comments)
 
   const blogFormRef = React.createRef()
 
@@ -134,6 +137,7 @@ const App = () => {
                 handleLike={handleLike}
                 handleRemove={handleRemove}
                 user={user}
+                comments={comments}
               />
             </Route>
 
