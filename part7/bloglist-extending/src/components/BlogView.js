@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { createComment } from '../reducers/commentReducer'
 
-const BlogView = ({ blog, handleLike, handleRemove, user, comments }) => {
+const BlogView = ({ blog, handleLike, handleRemove, user, comments, notifyWith }) => {
+  const dispatch = useDispatch()
+
+  const [content, setContent] = useState('')
 
   if (!blog) {
     return null
+  }
+
+  const handleNewComment = async (event) => {
+    event.preventDefault()
+    setContent('')
+    dispatch(createComment({ content: content, blogId: blog.id }))
+    notifyWith(`You added a comment '${content}'`)
   }
 
   const currentComments = comments.filter(comment => comment.blog.id === blog.id)
@@ -26,6 +38,14 @@ const BlogView = ({ blog, handleLike, handleRemove, user, comments }) => {
         <button onClick={() => handleRemove(blog.id)}>remove</button>}
       <div>
         <h3>comments:</h3>
+        <form onSubmit={handleNewComment}>
+          <input
+            id='content'
+            value={content}
+            onChange={({ target }) => setContent(target.value)}
+          />
+          <button>create</button>
+        </form>
         <ul>
           {currentComments.map(comment => <li key={comment.id}>{comment.content}</li>)}
         </ul>

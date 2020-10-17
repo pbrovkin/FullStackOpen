@@ -125,7 +125,7 @@ const App = () => {
             <Link style={padding} to='/users'>users</Link>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </Navigation>
-          
+
           <div>
             <h2>BlogsApp</h2>
             <Notification notification={notification} />
@@ -138,6 +138,7 @@ const App = () => {
                 handleRemove={handleRemove}
                 user={user}
                 comments={comments}
+                notifyWith={notifyWith}
               />
             </Route>
 

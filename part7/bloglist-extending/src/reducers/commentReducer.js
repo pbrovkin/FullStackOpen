@@ -28,6 +28,7 @@ export const createComment = (object) => {
       type: 'NEW_COMMENT',
       data: newComment,
     })
+    dispatch(initializeComments())
   }
 }
 
