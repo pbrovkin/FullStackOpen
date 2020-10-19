@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmVsIiwiaWQiOiI1ZjYyNTU0NTRhMDIxOTAzMDA4MTJhMmEiLCJpYXQiOjE2MDAyODAxNTV9.lo9xLFLVTc8N_1rQeHfUgEfo2an8W08XY7HhzwrC_LA
+
+{
+    "title": "Another title",
+    "author": "Some Author",
+    "url": "http://title.io/",
+    "likes": 55
+}
