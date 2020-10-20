@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { setNotification } from './reducers/notificationReducer'
+
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -9,11 +13,14 @@ import loginService from './services/login'
 import storage from './utils/storage'
 
 const App = () => {
+  const dispatch = useDispatch()
+
+  const notification = useSelector(state => state.notification)
+
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [notification, setNotification] = useState(null)
 
   const blogFormRef = React.createRef()
 
@@ -29,12 +36,7 @@ const App = () => {
   }, [])
 
   const notifyWith = (message, type = 'success') => {
-    setNotification({
-      message, type
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
+    dispatch(setNotification(message, type))
   }
 
   const handleLogin = async (event) => {
@@ -50,7 +52,7 @@ const App = () => {
       notifyWith(`${user.name} welcome back!`)
       storage.saveUser(user)
     } catch (exception) {
-      notifyWith('wrong username/password', 'error')
+      notifyWith('Wrong username/password', 'error')
     }
   }
 
@@ -62,6 +64,7 @@ const App = () => {
       notifyWith(`a new blog '${newBlog.title}' by ${newBlog.author} added!`)
     } catch (exception) {
       console.log(exception)
+      notifyWith('Please check your input data', 'error')
     }
   }
 
