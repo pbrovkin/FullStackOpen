@@ -8,12 +8,13 @@ import { initBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import LoginForm from './components/LoginForm'
-import Blog from './components/Blog'
+import BlogLink from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import Users from './components/Users'
 import User from './components/User'
+import BlogView from './components/BlogView'
 
 import loginService from './services/login'
 import storage from './utils/storage'
@@ -85,6 +86,11 @@ const App = () => {
     ? users.find(user => user.id === matchUser.params.id)
     : null
 
+  const matchBlog = useRouteMatch('/blogs/:id')
+  const blogById = matchBlog
+    ? blogs.find(blog => blog.id === matchBlog.params.id)
+    : null
+
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
@@ -107,6 +113,15 @@ const App = () => {
           </div>
 
           <Switch>
+            <Route path='/blogs/:id'>
+              <BlogView blog={blogById}
+                handleLike={handleLike}
+                handleRemove={handleRemove}
+                user={loggedUser}
+                notifyWith={notifyWith}
+              />
+            </Route>
+
             <Route path='/users/:id'>
               <User user={userById} />
             </Route>
@@ -121,12 +136,9 @@ const App = () => {
               </Togglable>
 
               {blogs.sort(byLikes).map(blog =>
-                <Blog
+                <BlogLink
                   key={blog.id}
                   blog={blog}
-                  handleLike={handleLike}
-                  handleRemove={handleRemove}
-                  own={loggedUser.username === blog.user.username}
                 />
               )}
             </Route>
