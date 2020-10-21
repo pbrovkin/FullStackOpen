@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { setUser, unsetUser } from './reducers/loggedUsedReducer'
 import { initBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 
@@ -15,14 +16,10 @@ import storage from './utils/storage'
 const App = () => {
   const dispatch = useDispatch()
 
+  const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
   const notification = useSelector(state => state.notification)
 
-  useEffect(() => {
-    dispatch(initBlogs())
-  }, [dispatch])
-
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -30,8 +27,12 @@ const App = () => {
 
   useEffect(() => {
     const user = storage.loadUser()
-    setUser(user)
-  }, [])
+    dispatch(setUser(user))
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(initBlogs())
+  }, [dispatch])
 
   const notifyWith = (message, type = 'success') => {
     dispatch(setNotification(message, type))
@@ -45,7 +46,7 @@ const App = () => {
       })
       setUsername('')
       setPassword('')
-      setUser(user)
+      dispatch(setUser(user))
       notifyWith(`${user.name} welcome back!`)
       storage.saveUser(user)
     } catch (exception) {
@@ -68,7 +69,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(unsetUser(null))
     storage.logoutUser()
   }
 
