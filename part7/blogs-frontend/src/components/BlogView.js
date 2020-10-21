@@ -20,10 +20,10 @@ const BlogView = ({ blog, handleLike, handleRemove, user }) => {
         <button onClick={() => handleLike(blog.id)}>like</button>
       </div>
       <div>added by {blog.user.name}</div>
-      {user.username === blog.user.username &&
-        <div>
-          <button onClick={() => handleRemove(blog.id)}>remove</button>
-        </div>}
+      <div>
+        {user.username === blog.user.username &&
+          <button onClick={() => handleRemove(blog.id)}>remove</button>}
+      </div>
     </div>
   )
 }

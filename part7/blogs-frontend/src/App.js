@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom'
 
 import { setUser, unsetUser } from './reducers/loggedUsedReducer'
 import { initUsers } from './reducers/userReducer'
@@ -8,23 +8,25 @@ import { initBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import LoginForm from './components/LoginForm'
-import BlogLink from './components/Blog'
+import BlogLink from './components/BlogLink'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import Users from './components/Users'
 import User from './components/User'
 import BlogView from './components/BlogView'
+import Navigation from './components/Navigation'
 
 import loginService from './services/login'
 import storage from './utils/storage'
 
 const App = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const loggedUser = useSelector(state => state.loggedUser)
-  const users = useSelector(state => state.users)
   const blogs = useSelector(state => state.blogs)
+  const users = useSelector(state => state.users)
   const notification = useSelector(state => state.notification)
 
   const [username, setUsername] = useState('')
@@ -66,6 +68,7 @@ const App = () => {
     const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
     dispatch(likeBlog(likedBlog))
+    notifyWith(`Liked '${blogToLike.title}' by ${blogToLike.author}`)
   }
 
   const handleRemove = async (id) => {
@@ -73,6 +76,8 @@ const App = () => {
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
       dispatch(removeBlog(id))
+      history.push('/')
+      notifyWith(`Removed '${blogToRemove.title}' by ${blogToRemove.author}`)
     }
   }
 
@@ -104,12 +109,11 @@ const App = () => {
           notification={notification}
         /> :
         <div>
+          <Navigation user={loggedUser} handleLogout={handleLogout} />
+
           <div>
             <h2>BlogsApp</h2>
             <Notification notification={notification} />
-            <p>
-              {loggedUser.name} logged in <button onClick={handleLogout}>logout</button>
-            </p>
           </div>
 
           <Switch>
