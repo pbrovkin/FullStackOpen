@@ -4,7 +4,7 @@ import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom'
 
 import { setUser, unsetUser } from './reducers/loggedUsedReducer'
 import { initUsers } from './reducers/userReducer'
-import { initBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
+import { initBlogs, updateBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import LoginForm from './components/LoginForm'
@@ -67,7 +67,7 @@ const App = () => {
   const handleLike = async (id) => {
     const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    dispatch(likeBlog(likedBlog))
+    dispatch(updateBlog(likedBlog))
     notifyWith(`Liked '${blogToLike.title}' by ${blogToLike.author}`)
   }
 
