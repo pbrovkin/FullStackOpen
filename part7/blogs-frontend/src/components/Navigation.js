@@ -1,25 +1,48 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { makeStyles } from '@material-ui/core/styles'
+import { AppBar, Toolbar, Button } from '@material-ui/core'
 
-const Navi = styled.div`
-  background: lightgray;
-  padding: 1em;`
+const useStyles = makeStyles({
+  left: {
+    marginRight: 16,
+    marginLeft: -24
+  },
+  right: {
+    marginLeft: 'auto',
+    marginRight: -20
+  },
+  center: {
+    marginLeft: 'auto',
+    marginRight: -20
+  },
+})
 
 const Navigation = ({ user, handleLogout }) => {
-  const padding = {
-    padding: 5
-  }
-  const paddingLeft = {
-    paddingLeft: 0
-  }
+  const classes = useStyles()
 
   return (
-    <Navi style={paddingLeft}>
-      <Link style={padding} to='/'>blogs</Link>
-      <Link style={padding} to='/users'>users</Link>
-      {user.name} logged in <button onClick={handleLogout}>logout</button>
-    </Navi>
+    <AppBar position='static'>
+      <Toolbar>
+        <div className={classes.left}>
+          <Button color='inherit' component={Link} to='/'>
+            blogs
+          </Button>
+          <Button color='inherit' component={Link} to='/users'>
+            users
+          </Button>
+        </div>
+        <div className={classes.center}>
+          <h2>BlogsApp</h2>
+        </div>
+        <div className={classes.right}>
+          <em>{user.name} logged in</em>
+          <Button color='inherit' onClick={handleLogout}>
+            logout
+          </Button>
+        </div>
+      </Toolbar>
+    </AppBar>
   )
 }
 

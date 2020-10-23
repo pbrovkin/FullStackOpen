@@ -8,7 +8,7 @@ import { initBlogs, updateBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import LoginForm from './components/LoginForm'
-import BlogLink from './components/BlogLink'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
@@ -19,6 +19,8 @@ import Navigation from './components/Navigation'
 
 import loginService from './services/login'
 import storage from './utils/storage'
+
+import Container from '@material-ui/core/Container'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -57,8 +59,9 @@ const App = () => {
       setUsername('')
       setPassword('')
       dispatch(setUser(user))
-      notifyWith(`${user.name} welcome back!`)
       storage.saveUser(user)
+      history.push('/')
+      notifyWith(`${user.name} welcome back!`)
     } catch (exception) {
       notifyWith('Wrong username/password', 'error')
     }
@@ -96,10 +99,8 @@ const App = () => {
     ? blogs.find(blog => blog.id === matchBlog.params.id)
     : null
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
-
   return (
-    <>
+    <Container>
       {!loggedUser ?
         <LoginForm username={username}
           setUsername={setUsername}
@@ -111,10 +112,7 @@ const App = () => {
         <div>
           <Navigation user={loggedUser} handleLogout={handleLogout} />
 
-          <div>
-            <h2>BlogsApp</h2>
-            <Notification notification={notification} />
-          </div>
+          <Notification notification={notification} />
 
           <Switch>
             <Route path='/blogs/:id'>
@@ -139,17 +137,12 @@ const App = () => {
                 <NewBlog notifyWith={notifyWith} />
               </Togglable>
 
-              {blogs.sort(byLikes).map(blog =>
-                <BlogLink
-                  key={blog.id}
-                  blog={blog}
-                />
-              )}
+              <BlogList blogs={blogs} />
             </Route>
           </Switch>
         </div>
       }
-    </>
+    </Container>
   )
 }
 

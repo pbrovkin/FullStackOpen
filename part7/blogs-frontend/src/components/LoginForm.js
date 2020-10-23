@@ -1,40 +1,35 @@
 import React from 'react'
 import Notification from './Notification'
+import { makeStyles } from '@material-ui/core/styles'
+import { TextField, Button } from '@material-ui/core'
 
-const LoginForm = ({
-  username,
-  setUsername,
-  password,
-  setPassword,
-  handleLogin,
-  notification
-}) => {
+const useStyles = makeStyles({
+  button: {
+    marginTop: 10
+  },
+})
+
+const LoginForm = ({ setUsername, setPassword, handleLogin, notification }) => {
+  const classes = useStyles()
 
   return (
     <div>
-      <h2>login to application</h2>
+      <h2>Login BlogsApp</h2>
 
       <Notification notification={notification} />
 
       <form onSubmit={handleLogin}>
         <div>
-          username
-            <input
-            id='username'
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <TextField label='username' onChange={({ target }) => setUsername(target.value)} />
         </div>
         <div>
-          password
-            <input
-            id='password'
-            type='password'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <TextField label='password' type='password' onChange={({ target }) => setPassword(target.value)} />
         </div>
-        <button id='login'>login</button>
+        <div>
+          <Button className={classes.button} variant='contained' color='primary' type='submit'>
+            login
+          </Button>
+        </div>
       </form>
     </div>
   )

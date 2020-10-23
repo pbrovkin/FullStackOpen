@@ -1,28 +1,21 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { updateBlog } from '../reducers/blogReducer'
-import { v4 as uuidv4 } from 'uuid'
+import React from 'react'
+import Comments from './Comments'
+import { makeStyles } from '@material-ui/core/styles'
+import { Button } from '@material-ui/core'
+
+const useStyles = makeStyles({
+  removeButton: {
+    padding: 5
+  },
+  likeButton: {
+    padding: 5,
+    marginLeft: 10
+  },
+})
 
 const BlogView = ({ blog, handleLike, handleRemove, user, notifyWith }) => {
-  const dispatch = useDispatch()
-  
-  const [comment, setComment] = useState('')
 
-  const handleComment = async (event) => {
-    event.preventDefault()
-    const commentedBlog = {
-      ...blog,
-      comments: [...blog.comments, comment],
-      user: blog.user.id
-    }
-    dispatch(updateBlog(commentedBlog))
-    notifyWith(`Added comment '${comment}' for '${blog.title}'`)
-    setComment('')
-  }
-
-  const marginLeft = {
-    marginLeft: 5
-  }
+  const classes = useStyles()
 
   if (!blog) {
     return null
@@ -36,26 +29,26 @@ const BlogView = ({ blog, handleLike, handleRemove, user, notifyWith }) => {
           {blog.url}
         </a>
       </p>
-      <p>likes {blog.likes}
-        <button style={marginLeft} onClick={() => handleLike(blog.id)}>like</button>
-      </p>
       <p>added by {blog.user.name}</p>
+      <p>likes: {blog.likes}</p>
       <p>
         {user.username === blog.user.username &&
-          <button onClick={() => handleRemove(blog.id)}>remove</button>}
+          <Button
+            onClick={() => handleRemove(blog.id)}
+            className={classes.removeButton}
+            variant='contained'
+            color='primary'>
+            remove
+          </Button>}
+        <Button
+          onClick={() => handleLike(blog.id)}
+          className={classes.likeButton}
+          variant='contained'
+          color='primary'>
+          like
+        </Button>
       </p>
-      <h3>Comments</h3>
-      <form onSubmit={handleComment}>
-        <input
-          id='comment'
-          value={comment}
-          onChange={({ target }) => setComment(target.value)}
-        />
-        <button>add comment</button>
-      </form>
-      <ul>
-        {blog.comments.map(comment => <li key={uuidv4()}>{comment}</li>)}
-      </ul>
+      <Comments blog={blog} notifyWith={notifyWith} />
     </div>
   )
 }

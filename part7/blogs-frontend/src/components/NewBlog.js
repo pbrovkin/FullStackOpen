@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
+import { makeStyles } from '@material-ui/core/styles'
+import { TextField, Button } from '@material-ui/core'
+
+const useStyles = makeStyles({
+  button: {
+    marginTop: 10
+  },
+})
 
 const NewBlog = ({ notifyWith }) => {
   const dispatch = useDispatch()
@@ -18,35 +26,25 @@ const NewBlog = ({ notifyWith }) => {
     setUrl('')
   }
 
+  const classes = useStyles()
+
   return (
     <div>
-      <h2>create new</h2>
       <form onSubmit={handleNewBlog}>
         <div>
-          author
-          <input
-            id='author'
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          <TextField value={title} label='title' onChange={({ target }) => setTitle(target.value)} />
         </div>
         <div>
-          title
-          <input
-            id='title'
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
+          <TextField value={author} label='author' onChange={({ target }) => setAuthor(target.value)} />
         </div>
         <div>
-          url
-          <input
-            id='url'
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
+          <TextField value={url} label='url' onChange={({ target }) => setUrl(target.value)} />
         </div>
-        <button id="create">create</button>
+        <div>
+          <Button className={classes.button} variant='contained' color='primary' type='submit'>
+            add blog
+          </Button>
+        </div>
       </form>
     </div>
   )
