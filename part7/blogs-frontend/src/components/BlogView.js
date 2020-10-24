@@ -6,16 +6,17 @@ import { Button } from '@material-ui/core'
 const useStyles = makeStyles({
   removeButton: {
     padding: 5
-  },
-  likeButton: {
-    padding: 5,
-    marginLeft: 10
-  },
+  }
 })
 
 const BlogView = ({ blog, handleLike, handleRemove, user, notifyWith }) => {
-
   const classes = useStyles()
+
+  const own = user.username === blog.user.username
+
+  if(own) {
+    classes.likeButton = { padding: 5, marginLeft: 10 }
+  }
 
   if (!blog) {
     return null
@@ -32,7 +33,7 @@ const BlogView = ({ blog, handleLike, handleRemove, user, notifyWith }) => {
       <p>added by {blog.user.name}</p>
       <p>likes: {blog.likes}</p>
       <p>
-        {user.username === blog.user.username &&
+        {own &&
           <Button
             onClick={() => handleRemove(blog.id)}
             className={classes.removeButton}
@@ -42,7 +43,7 @@ const BlogView = ({ blog, handleLike, handleRemove, user, notifyWith }) => {
           </Button>}
         <Button
           onClick={() => handleLike(blog.id)}
-          className={classes.likeButton}
+          style={classes.likeButton}
           variant='contained'
           color='primary'>
           like
