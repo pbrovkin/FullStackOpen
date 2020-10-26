@@ -5,6 +5,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { TextField, Button } from '@material-ui/core'
 
 const useStyles = makeStyles({
+  formDiv: {
+    marginTop: 10
+  },
   button: {
     marginTop: 10
   },
@@ -19,17 +22,21 @@ const NewBlog = ({ notifyWith }) => {
 
   const handleNewBlog = async (event) => {
     event.preventDefault()
-    dispatch(createBlog({ title, author, url }))
-    notifyWith(`New blog '${title}' by ${author} added!`)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    if (title && author && url) {
+      dispatch(createBlog({ title, author, url }))
+      notifyWith(`New blog '${title}' by ${author} added!`)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } else {
+      notifyWith('Input data is missing. Please check.', 'error')
+    }
   }
 
   const classes = useStyles()
 
   return (
-    <div>
+    <div className={classes.formDiv}>
       <form onSubmit={handleNewBlog}>
         <div>
           <TextField value={title} label='title' onChange={({ target }) => setTitle(target.value)} />

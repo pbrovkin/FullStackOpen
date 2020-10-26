@@ -27,14 +27,18 @@ const Comments = ({ blog, notifyWith }) => {
 
   const handleComment = async (event) => {
     event.preventDefault()
-    const commentedBlog = {
-      ...blog,
-      comments: [...blog.comments, comment],
-      user: blog.user.id
+    if (!comment) {
+      notifyWith('Input data is missing. Please check.', 'error')
+    } else {
+      const commentedBlog = {
+        ...blog,
+        comments: [...blog.comments, comment],
+        user: blog.user.id
+      }
+      dispatch(updateBlog(commentedBlog))
+      notifyWith(`Added comment '${comment}' for '${blog.title}'`)
+      setComment('')
     }
-    dispatch(updateBlog(commentedBlog))
-    notifyWith(`Added comment '${comment}' for '${blog.title}'`)
-    setComment('')
   }
 
   const classes = useStyles()
@@ -69,7 +73,6 @@ const Comments = ({ blog, notifyWith }) => {
       </div>
     </div>
   )
-
 }
 
 export default Comments

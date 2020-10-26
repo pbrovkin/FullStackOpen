@@ -76,11 +76,11 @@ const App = () => {
 
   const handleRemove = async (id) => {
     const blogToRemove = blogs.find(b => b.id === id)
-    const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
+    const ok = window.confirm(`Remove blog '${blogToRemove.title}' by ${blogToRemove.author}?`)
     if (ok) {
       dispatch(removeBlog(id))
       history.push('/')
-      notifyWith(`Removed '${blogToRemove.title}' by ${blogToRemove.author}`)
+      notifyWith(`Removed '${blogToRemove.title}' by ${blogToRemove.author}.`)
     }
   }
 
@@ -102,9 +102,8 @@ const App = () => {
   return (
     <Container>
       {!loggedUser ?
-        <LoginForm username={username}
+        <LoginForm
           setUsername={setUsername}
-          password={password}
           setPassword={setPassword}
           handleLogin={handleLogin}
           notification={notification}
