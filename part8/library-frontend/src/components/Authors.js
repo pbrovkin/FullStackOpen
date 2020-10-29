@@ -41,7 +41,7 @@ const Authors = (props) => {
           </tbody>
         </table>
       </div>
-      <EditAuthorForm authors={authors} />
+      <EditAuthorForm authors={authors} setError={props.setError} />
     </div>
   )
 }
