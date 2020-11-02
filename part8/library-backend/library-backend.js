@@ -59,15 +59,17 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    authorCount: () => authors.length,
-    bookCount: () => books.length,
     authorCount: () => Author.collection.countDocuments(),
+    bookCount: () => Book.collection.countDocuments(),
+    allAuthors: () => Author.find({}),
     allBooks: (root, args) => {
       if (!args.author && !args.genre) {
         return Book.find({})
       }
+      if (args.genre) {
+        return Book.find({ 'genres': { $in: [args.genre] } })
+      }
     },
-    allAuthors: () => Author.find({})
   },
   Mutation: {
     addBook: async (root, args) => {
@@ -92,6 +94,19 @@ const resolvers = {
         })
       }
       return book
+    },
+    editAuthor: async (root, args) => {
+      const author = await Author.findOne({ name: args.name })
+      author.born = args.setBornTo
+
+      try {
+        await author.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return author
     }
   }
 }
