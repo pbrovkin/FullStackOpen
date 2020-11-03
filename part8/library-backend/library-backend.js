@@ -8,9 +8,11 @@ const User = require('./models/user')
 
 mongoose.set('useFindAndModify', false)
 
-const MONGODB_URI = 'mongodb+srv://pavel:eDm3wLiov367kz2g@cluster0-tp6ec.mongodb.net/gql-library?retryWrites=true&w=majority'
+require('dotenv').config()
 
-const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
+const MONGODB_URI = process.env.MONGODB_URI
+
+const JWT_SECRET = process.env.SECRET
 
 mongoose.set('useCreateIndex', true)
 
