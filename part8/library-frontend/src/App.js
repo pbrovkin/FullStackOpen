@@ -52,7 +52,7 @@ const App = () => {
 
       <Books show={page === 'books'} />
 
-      <NewBook show={page === 'add'} setError={notify} />
+      <NewBook show={page === 'add'} setError={notify} setPage={setPage} />
 
       <LoginForm
         show={page === 'login'}
