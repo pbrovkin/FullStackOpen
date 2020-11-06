@@ -10,7 +10,7 @@ const Books = (props) => {
   const result = useQuery(ALL_BOOKS)
 
   useEffect(() => {
-    if (result.data) {
+    if (result.data && result.data.allBooks) {
       if (genre === 'all') {
         setBooks(result.data.allBooks)
       } else {
