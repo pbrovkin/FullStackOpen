@@ -7,14 +7,14 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [ login,result ] = useMutation(LOGIN, {
+  const [login, result] = useMutation(LOGIN, {
     onError: (error) => {
       setError(error.message)
     }
   })
 
   useEffect(() => {
-    if ( result.data ) {
+    if (result.data) {
       const token = result.data.login.value
       setToken(token)
       localStorage.setItem('library-user-token', token)
@@ -28,7 +28,6 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
     login({
       variables: { username, password }
     })
-
   }
 
   if (!show) {
