@@ -11,7 +11,7 @@ const Recommended = (props) => {
     if (meResult.data && meResult.data.me) {
       getBooks({ variables: { genre: meResult.data.me.favoriteGenre } })
     }
-    if (booksResult.data && meResult.data.allBooks) {
+    if (booksResult.data) {
       setBooks(booksResult.data.allBooks)
     }
   }, [meResult.data, booksResult.data, getBooks])
