@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
+import { useApolloClient, useLazyQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
 import GenreButtons from './GenreButtons'
 
 const Books = ({ show, byGenre }) => {
   const [genre, setGenre] = useState(null)
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
+  const client = useApolloClient()
 
   useEffect(() => {
     setGenre(byGenre)
@@ -18,6 +19,11 @@ const Books = ({ show, byGenre }) => {
       getBooks({ variables: { genre: genre } })
     }
   }, [genre, getBooks])
+
+  const setNewGenre = (newGenre) => {
+    client.cache.evict({ fieldName: 'allBooks', args: { genre: genre } })
+    setGenre(newGenre)
+  }
 
   if (!show) {
     return null
@@ -54,7 +60,7 @@ const Books = ({ show, byGenre }) => {
           )}
         </tbody>
       </table>
-      {byGenre ? null : <GenreButtons genres={genres} setGenre={setGenre} />}
+      {byGenre ? null : <GenreButtons genres={genres} setGenre={setNewGenre} />}
     </div>
   )
 }
