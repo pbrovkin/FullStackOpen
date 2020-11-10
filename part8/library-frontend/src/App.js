@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { ME } from './queries'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import Recommended from './components/Recommended'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
@@ -22,6 +23,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
   const client = useApolloClient()
+  const meResult = useQuery(ME)
 
   const notify = (message) => {
     setErrorMessage(message)
@@ -59,7 +61,10 @@ const App = () => {
 
       <NewBook show={page === 'add'} setError={notify} setPage={setPage} />
 
-      <Recommended show={page === 'recommended'} />
+      <Books
+        show={page === 'recommended'}
+        byGenre={meResult.data && meResult.data.me ? meResult.data.me.favoriteGenre : null}
+      />
 
       <LoginForm
         show={page === 'login'}
