@@ -70,7 +70,7 @@ export const LOGIN = gql`
   }
 `
 
-export const ME = gql`
+export const USER = gql`
   query {
     me {
       username,
