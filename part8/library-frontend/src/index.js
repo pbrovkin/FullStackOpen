@@ -44,7 +44,6 @@ const client = new ApolloClient({
   link: splitLink
 })
 
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
