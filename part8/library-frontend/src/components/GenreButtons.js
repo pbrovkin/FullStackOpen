@@ -2,7 +2,7 @@ import React from 'react'
 
 const GenreButtons = ({ genres, setGenre }) => {
   return (
-    <div>
+    <div style={{ marginTop: 10 }}>
       {genres.map(genre =>
         <button onClick={() => setGenre(genre)} key={genre}>
           {genre}

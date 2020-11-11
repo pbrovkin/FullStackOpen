@@ -35,7 +35,7 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: 10 }}>
       <form onSubmit={submit}>
         <div>
           username <input

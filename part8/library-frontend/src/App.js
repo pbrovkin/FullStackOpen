@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import {
-  useQuery, useSubscription, useApolloClient
-} from '@apollo/client'
-import { ALL_BOOKS, USER, BOOK_ADDED } from './queries'
+import { useSubscription, useApolloClient } from '@apollo/client'
+import { ALL_BOOKS, BOOK_ADDED } from './queries'
 import Notify from './components/Notify'
 import Authors from './components/Authors'
 import Books from './components/Books'
+import RecommendedBooks from './components/RecommendedBooks'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 
@@ -13,7 +12,6 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
-  const user = useQuery(USER)
   const client = useApolloClient()
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const App = () => {
 
   const updateCacheWith = (addedBook) => {
     const includedIn = (set, object) =>
-      set.map(p => p.id).includes(object.title)
+      set.map(b => b.id).includes(object.id)
 
     const dataInStore = client.readQuery({ query: ALL_BOOKS })
     if (!includedIn(dataInStore.allBooks, addedBook)) {
@@ -44,17 +42,17 @@ const App = () => {
     }
   })
 
-  const logout = () => {
-    setToken(null)
-    localStorage.clear()
-    client.resetStore()
-  }
-
   const notify = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 10000)
+    }, 5000)
+  }
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
   }
 
   return (
@@ -78,11 +76,15 @@ const App = () => {
 
       <Books show={page === 'books'} />
 
-      <NewBook show={page === 'add'} setError={notify} setPage={setPage} updateCacheWith={updateCacheWith} />
+      <NewBook
+        show={page === 'add'}
+        setError={notify}
+        setPage={setPage}
+        updateCacheWith={updateCacheWith}
+      />
 
-      <Books
+      <RecommendedBooks
         show={page === 'recommended'}
-        byGenre={user.data && user.data.me ? user.data.me.favoriteGenre : null}
       />
 
       <LoginForm

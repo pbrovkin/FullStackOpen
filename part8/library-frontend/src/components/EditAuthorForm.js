@@ -48,7 +48,7 @@ const EditAuthorForm = ({ authors, setError }) => {
             onChange={({ target }) => setBorn(Number(target.value))}
           />
         </div>
-        <button type='submit'>update</button>
+        <button type='submit' style={{ marginTop: 10 }}>update</button>
       </form>
     </div>
   )

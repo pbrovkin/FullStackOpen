@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../queries'
-import GenreButtons from './GenreButtons'
+import React, { useEffect, useState } from 'react'
+import { useQuery, useLazyQuery } from '@apollo/client'
+import { ALL_BOOKS, USER } from '../queries'
 
-const Books = ({ show }) => {
+const RecommendedBooks = ({ show }) => {
   const [genre, setGenre] = useState(null)
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
+  const user = useQuery(USER)
 
   useEffect(() => {
-    if (!genre) {
-      getBooks()
-    } else {
+    if (user.data && user.data.me) {
+      setGenre(user.data.me.favoriteGenre)
+    }
+  }, [user.data])
+
+  useEffect(() => {
+    if (genre) {
       getBooks({ variables: { genre: genre } })
     }
   }, [genre, getBooks])
-
 
   if (!show) {
     return null
@@ -23,8 +26,6 @@ const Books = ({ show }) => {
   if (result.loading) {
     return <div>loading...</div>
   }
-
-  const genres = [...new Set(result.data.allBooks.map(book => book.genres).flat())]
 
   return (
     <div>
@@ -50,9 +51,8 @@ const Books = ({ show }) => {
           )}
         </tbody>
       </table>
-      <GenreButtons genres={genres} setGenre={setGenre} />
     </div>
   )
 }
 
-export default Books
+export default RecommendedBooks
