@@ -30,6 +30,13 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const token = localStorage.getItem('library-user-token')
+    if (token) {
+      setToken(token)
+    }
+  }, [])
+
   const notify = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
