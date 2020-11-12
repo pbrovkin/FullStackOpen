@@ -17,3 +17,24 @@ export const ALL_AUTHORS = gql`
   }
   ${AUTHOR_DETAILS}
 `
+
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    id
+    title
+    author {
+      name
+    }
+    published
+    genres
+  }
+`
+
+export const ALL_BOOKS = gql`
+  query allBooks($genre: String) {
+    allBooks(genre: $genre) {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
+`
