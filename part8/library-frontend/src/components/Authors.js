@@ -37,7 +37,9 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-      <EditAuthor authors={result.data.allAuthors} setError={props.setError} />
+      {props.token
+        ? <EditAuthor authors={result.data.allAuthors} setError={props.setError} />
+        : null}
     </div>
   )
 }
