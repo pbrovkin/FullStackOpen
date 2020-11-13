@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/client'
+import { USER } from './queries'
 import { useApolloClient } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -21,6 +23,8 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
+  const [genre, setGenre] = useState(null)
+  const user = useQuery(USER)
   const client = useApolloClient()
 
   useEffect(() => {
@@ -29,6 +33,13 @@ const App = () => {
       setToken(token)
     }
   }, [])
+
+  useEffect(() => {
+    if (user.data && user.data.me) {
+      const fav = user.data.me.favoriteGenre
+      setGenre(fav)
+    }
+  }, [user.data])
 
   const notify = (message) => {
     setErrorMessage(message)
@@ -41,6 +52,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    setPage('books')
   }
 
   return (
@@ -50,6 +62,9 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         {token
           ? <button onClick={() => setPage('add')}>add book</button>
+          : null}
+        {token
+          ? <button onClick={() => setPage('recommended')}>recommended</button>
           : null}
         {token
           ? <button onClick={() => logout()}>logout</button>
@@ -73,6 +88,11 @@ const App = () => {
         show={page === 'add'}
         setError={notify}
         setPage={setPage}
+      />
+
+      <Books
+        show={page === 'recommended'}
+        favGenre={genre}
       />
 
       <LoginForm

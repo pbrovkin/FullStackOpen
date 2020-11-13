@@ -8,6 +8,12 @@ const Books = (props) => {
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
 
   useEffect(() => {
+    if (props.favGenre) {
+      setGenre(props.favGenre)
+    }
+  }, [props.favGenre])
+
+  useEffect(() => {
     if (genre) {
       getBooks({ variables: { genre: genre } })
     } else {
@@ -27,7 +33,13 @@ const Books = (props) => {
 
   return (
     <div>
-      <h2>books</h2>
+      {props.favGenre
+        ?
+        <>
+          <h2>recommendations</h2>
+          <p>in your favourite genre <strong>{props.favGenre}</strong></p>
+        </>
+        : <h2>books</h2>}
 
       <table>
         <tbody>
@@ -49,7 +61,11 @@ const Books = (props) => {
           )}
         </tbody>
       </table>
-      <GenreButtons genres={genres} setGenre={setGenre} />
+
+      {props.favGenre
+        ? null
+        : <GenreButtons genres={genres} setGenre={setGenre} />}
+
     </div>
   )
 }
