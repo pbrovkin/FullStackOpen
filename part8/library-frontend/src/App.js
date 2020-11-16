@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSubscription, useApolloClient } from '@apollo/client'
 import { ALL_BOOKS, BOOK_ADDED } from './queries'
+import Notify from './components/Notify'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Recommended from './components/Recommended'
 import LoginForm from './components/LoginForm'
-
-const Notify = ({ errorMessage }) => {
-  if (!errorMessage) {
-    return null
-  }
-
-  return (
-    <div style={{ color: 'red' }}>
-      {errorMessage}
-    </div>
-  )
-}
 
 const App = () => {
   const [page, setPage] = useState('authors')

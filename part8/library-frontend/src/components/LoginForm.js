@@ -36,7 +36,7 @@ const LoginForm = (props) => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: 10 }}>
       <form onSubmit={submit}>
         <div>
           username <input
