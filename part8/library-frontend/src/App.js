@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
-import { USER } from './queries'
 import { useApolloClient } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import Recommended from './components/Recommended'
 import LoginForm from './components/LoginForm'
 
 const Notify = ({ errorMessage }) => {
@@ -23,8 +22,6 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
-  const [genre, setGenre] = useState(null)
-  const user = useQuery(USER)
   const client = useApolloClient()
 
   useEffect(() => {
@@ -33,13 +30,6 @@ const App = () => {
       setToken(token)
     }
   }, [])
-
-  useEffect(() => {
-    if (user.data && user.data.me) {
-      const fav = user.data.me.favoriteGenre
-      setGenre(fav)
-    }
-  }, [user.data])
 
   const notify = (message) => {
     setErrorMessage(message)
@@ -90,9 +80,8 @@ const App = () => {
         setPage={setPage}
       />
 
-      <Books
+      <Recommended
         show={page === 'recommended'}
-        favGenre={genre}
       />
 
       <LoginForm

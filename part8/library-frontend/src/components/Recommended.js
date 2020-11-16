@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../queries'
-import GenreButtons from './GenreButtons'
+import { useQuery, useLazyQuery } from '@apollo/client'
+import { ALL_BOOKS, USER } from '../queries'
 
-const Books = (props) => {
+const Recommended = (props) => {
   const [genre, setGenre] = useState(null)
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
+  const user = useQuery(USER)
+
+  useEffect(() => {
+    if (user.data && user.data.me) {
+      const favGenre = user.data.me.favoriteGenre
+      setGenre(favGenre)
+    }
+  }, [user.data])
 
   useEffect(() => {
     if (genre) {
       getBooks({ variables: { genre: genre } })
-    } else {
-      getBooks()
     }
   }, [genre]) // eslint-disable-line
 
@@ -19,21 +24,14 @@ const Books = (props) => {
     return null
   }
 
-  if (result.loading) {
+  if (result.loading || !genre) {
     return <div>loading...</div>
   }
 
-  const genres = [...new Set(result.data.allBooks.map(book => book.genres).flat())]
-
   return (
     <div>
-      {props.favGenre
-        ?
-        <>
-          <h2>recommendations</h2>
-          <p>in your favourite genre <strong>{props.favGenre}</strong></p>
-        </>
-        : <h2>books</h2>}
+      <h2>recommendations</h2>
+      <p>in your favourite genre <strong>{genre}</strong></p>
 
       <table>
         <tbody>
@@ -56,12 +54,8 @@ const Books = (props) => {
         </tbody>
       </table>
 
-      {props.favGenre
-        ? null
-        : <GenreButtons genres={genres} setGenre={setGenre} />}
-
     </div>
   )
 }
 
-export default Books
+export default Recommended
