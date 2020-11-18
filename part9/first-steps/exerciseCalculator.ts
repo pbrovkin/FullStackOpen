@@ -1,9 +1,28 @@
-interface InputParameters {
-  hours: number[];
+interface ExsParameters {
+  hours: Array<number>;
   target: number;
 }
 
-const calculateExercises = (hours: number[], target: number) => {
+const parseExsArguments = (args: Array<string>): ExsParameters => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  let target;
+  let hours = [];
+  for (let i = 2; i < args.length; i++) {
+    if (isNaN(Number(args[i]))) {
+      throw new Error('Provided values were not numbers!');
+    } else {
+      if (i == 2) {
+        target = Number(args[i]);
+      } else {
+        hours.push(Number(args[i]));
+      }
+    }
+  }
+  return { hours, target };
+}
+
+const calculateExercises = (hours: Array<number>, target: number) => {
   const periodLength = hours.length;
   const trainingDays = hours.filter(item => item > 0).length;
   const average = hours.reduce((a, b) => a + b, 0) / hours.length;
@@ -32,7 +51,8 @@ const calculateExercises = (hours: number[], target: number) => {
 }
 
 try {
-  console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+  const { hours, target } = parseExsArguments(process.argv);
+  console.log(calculateExercises(hours, target));
 } catch (e) {
-  console.log('Something went wrong, error message: ', e.message);
+  console.log('Error, something bad happened, message: ', e.message);
 }
