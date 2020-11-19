@@ -11,13 +11,13 @@ const parseBmiArguments = (args: Array<string>): BmiParameters => {
     return {
       height: Number(args[2]),
       weight: Number(args[3])
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
-export const calculateBmi = (height: number, weight: number) => {
+export const calculateBmi = (height: number, weight: number): string => {
   const heightInMeters = height / 100;
   const bmi = weight / (heightInMeters * heightInMeters);
 
@@ -38,13 +38,14 @@ export const calculateBmi = (height: number, weight: number) => {
   } else {
     return 'Obese Class III (Very severely obese)';
   }
-}
+};
 
 if (require.main === module) {
   try {
     const { height, weight } = parseBmiArguments(process.argv);
     console.log(calculateBmi(height, weight));
   } catch (e) {
+    // eslint-disable-next-line
     console.log('Error, something bad happened, message: ', e.message);
   }
 }

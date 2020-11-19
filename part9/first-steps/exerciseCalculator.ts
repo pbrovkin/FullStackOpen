@@ -6,8 +6,8 @@ interface ExsParameters {
 const parseExsArguments = (args: Array<string>): ExsParameters => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
-  let target;
-  let hours = [];
+  let target = 0;
+  const hours = [];
   for (let i = 2; i < args.length; i++) {
     if (isNaN(Number(args[i]))) {
       throw new Error('Provided values were not numbers!');
@@ -20,7 +20,7 @@ const parseExsArguments = (args: Array<string>): ExsParameters => {
     }
   }
   return { hours, target };
-}
+};
 
 const calculateExercises = (hours: Array<number>, target: number) => {
   const periodLength = hours.length;
@@ -47,12 +47,13 @@ const calculateExercises = (hours: Array<number>, target: number) => {
     ratingDescription,
     target,
     average
-  }
-}
+  };
+};
 
 try {
   const { hours, target } = parseExsArguments(process.argv);
   console.log(calculateExercises(hours, target));
 } catch (e) {
+  // eslint-disable-next-line
   console.log('Error, something bad happened, message: ', e.message);
 }
