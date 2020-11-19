@@ -45,7 +45,7 @@ if (require.main === module) {
     const { height, weight } = parseBmiArguments(process.argv);
     console.log(calculateBmi(height, weight));
   } catch (e) {
-    // eslint-disable-next-line
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     console.log('Error, something bad happened, message: ', e.message);
   }
 }
