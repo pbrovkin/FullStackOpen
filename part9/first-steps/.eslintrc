@@ -24,6 +24,7 @@
       }
     ],
     "no-case-declarations": 0
+    
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
