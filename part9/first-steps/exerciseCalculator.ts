@@ -3,6 +3,16 @@ interface ExsParameters {
   target: number;
 }
 
+interface ExsResult {
+  periodLength: number;
+  trainingDays: number;
+  success: boolean;
+  rating: number;
+  ratingDescription: string;
+  target: number;
+  average: number;
+}
+
 const parseExsArguments = (args: Array<string>): ExsParameters => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
@@ -22,7 +32,7 @@ const parseExsArguments = (args: Array<string>): ExsParameters => {
   return { hours, target };
 };
 
-const calculateExercises = (hours: Array<number>, target: number) => {
+export const calculateExercises = (hours: Array<number>, target: number): ExsResult => {
   const periodLength = hours.length;
   const trainingDays = hours.filter(item => item > 0).length;
   const average = hours.reduce((a, b) => a + b, 0) / hours.length;
@@ -50,10 +60,12 @@ const calculateExercises = (hours: Array<number>, target: number) => {
   };
 };
 
-try {
-  const { hours, target } = parseExsArguments(process.argv);
-  console.log(calculateExercises(hours, target));
-} catch (e) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  console.log('Error, something bad happened, message: ', e.message);
+if (require.main === module) {
+  try {
+    const { hours, target } = parseExsArguments(process.argv);
+    console.log(calculateExercises(hours, target));
+  } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    console.log('Error, something bad happened, message: ', e.message);
+  }
 }
