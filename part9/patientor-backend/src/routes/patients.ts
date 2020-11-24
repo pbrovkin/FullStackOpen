@@ -18,14 +18,9 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const { name, ssn, dateOfBirth, gender, occupation } = req.body;
-  const newPatient = patientService.addPatient(
-    name,
-    ssn,
-    dateOfBirth,
-    gender,
-    occupation,
-  );
+  const newPatient = patientService.addPatient({
+    ...req.body
+  });
   res.json(newPatient);
 });
 
