@@ -18,7 +18,13 @@ const addPatient = () => {
   return [];
 };
 
+const findById = (id: string): Patient | undefined => {
+  const entry = patients.find(p => p.id === id);
+  return entry;
+}
+
 export default {
   getPatients,
-  addPatient
+  addPatient,
+  findById
 };
