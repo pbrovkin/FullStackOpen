@@ -29,11 +29,4 @@ router.post('/', (req, res) => {
   }
 })
 
-/* router.post('/', (req, res) => {
-  const newPatient = patientService.addPatient({
-    ...req.body
-  });
-  res.json(newPatient);
-}); */
-
 export default router;
