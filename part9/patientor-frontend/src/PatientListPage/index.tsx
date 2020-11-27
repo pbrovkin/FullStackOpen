@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom'
 import { Container, Table, Button } from "semantic-ui-react";
 
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
@@ -36,6 +37,17 @@ const PatientListPage: React.FC = () => {
     }
   };
 
+  const fetchPatient = async (id: string) => {
+    try {
+      const { data: patientFromApi } = await axios.get<Patient>(
+        `${apiBaseUrl}/patients/${id}`
+      );
+      dispatch({ type: "SET_PATIENT", payload: patientFromApi });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="App">
       <Container textAlign="center">
@@ -53,7 +65,11 @@ const PatientListPage: React.FC = () => {
         <Table.Body>
           {Object.values(patients).map((patient: Patient) => (
             <Table.Row key={patient.id}>
-              <Table.Cell>{patient.name}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/patients/${patient.id}`} onClick={() => fetchPatient(patient.id)}>
+                  {patient.name}
+                </Link>
+              </Table.Cell>
               <Table.Cell>{patient.gender}</Table.Cell>
               <Table.Cell>{patient.occupation}</Table.Cell>
               <Table.Cell>
