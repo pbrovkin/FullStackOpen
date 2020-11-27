@@ -11,7 +11,7 @@ import HealthRatingBar from "../components/HealthRatingBar";
 import { useStateValue } from "../state";
 
 const PatientListPage: React.FC = () => {
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients, patient }, dispatch] = useStateValue();
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | undefined>();
@@ -38,13 +38,15 @@ const PatientListPage: React.FC = () => {
   };
 
   const fetchPatient = async (id: string) => {
-    try {
-      const { data: patientFromApi } = await axios.get<Patient>(
-        `${apiBaseUrl}/patients/${id}`
-      );
-      dispatch({ type: "SET_PATIENT", payload: patientFromApi });
-    } catch (e) {
-      console.error(e);
+    if (!patient || patient.id !== id) {
+      try {
+        const { data: patientFromApi } = await axios.get<Patient>(
+          `${apiBaseUrl}/patients/${id}`
+        );
+        dispatch({ type: "SET_PATIENT", payload: patientFromApi });
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
