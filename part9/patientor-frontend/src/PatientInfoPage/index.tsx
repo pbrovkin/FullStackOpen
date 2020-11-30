@@ -13,8 +13,8 @@ const PatientInfoPage: React.FC = () => {
         {" "}
         <GenderIcon gender={patient?.gender as Gender} />
       </h1>
-      <p>{patient?.ssn}</p>
-      <p>{patient?.occupation}</p>
+      <p>ssn: {patient?.ssn}</p>
+      <p>occupation: {patient?.occupation}</p>
     </div>
   )
 }
