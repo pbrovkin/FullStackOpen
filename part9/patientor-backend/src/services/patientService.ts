@@ -1,4 +1,4 @@
-import patientData from '../../data/patients.json'
+import patientData from '../../data/patients'
 import { Patient, PublicPatient, NoIdPatient } from '../types';
 import { v4 as uuid } from 'uuid';
 
