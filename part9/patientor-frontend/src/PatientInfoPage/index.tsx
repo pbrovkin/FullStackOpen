@@ -1,10 +1,11 @@
 import React from "react";
 import { Gender } from "../types"
 import { useStateValue } from "../state";
-import GenderIcon from "../components/GenderIcon"
+import GenderIcon from "../components/GenderIcon";
+import EntryDetails from "../components/EntryDetails";
 
 const PatientInfoPage: React.FC = () => {
-  const [{ patient, diagnoses },] = useStateValue();
+  const [{ patient },] = useStateValue();
 
   if (!patient) {
     return <p>no data found</p>;
@@ -19,20 +20,10 @@ const PatientInfoPage: React.FC = () => {
       </h1>
       <p>ssn: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
-      <h4>entries</h4>
+      <h3>Entries:</h3>
       {patient.entries.length > 0 ?
-        patient.entries.map(entry =>
-          <div key={entry.id}>
-            <p>{entry.date} {entry.description}</p>
-            <ul>
-              {entry.diagnosisCodes?.map(code => {
-                let name = Object.values(diagnoses).find(o => o.code === code)?.name
-                return <li key={code}>{code} {name}</li>
-              })}
-            </ul>
-          </div>
-        )
-        : <p>no entries</p>}
+        patient.entries.map(entry => <EntryDetails key={entry.id} entry={entry} />)
+        : <div>no entries found</div>}
     </div>
   )
 }
