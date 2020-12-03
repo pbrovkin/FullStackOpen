@@ -25,7 +25,7 @@ const isString = (text: any): text is string => {
 
 const parseDate = (date: any): string => {
   if (!date || !isString(date) || !isDate(date)) {
-      throw new Error('Incorrect or missing date: ' + date);
+    throw new Error('Incorrect or missing date: ' + date);
   }
   return date;
 };

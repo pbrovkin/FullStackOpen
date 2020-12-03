@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
   } else {
     res.sendStatus(404);
   }
-})
+});
 
 router.post('/', (req, res) => {
   try {
@@ -27,6 +27,6 @@ router.post('/', (req, res) => {
   } catch (e) {
     res.status(400).send(e.message);
   }
-})
+});
 
 export default router;
