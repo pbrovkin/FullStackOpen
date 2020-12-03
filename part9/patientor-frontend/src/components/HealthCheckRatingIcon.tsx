@@ -7,17 +7,15 @@ type HealtCheckRatingIconProps = {
 };
 
 const RatingToColor = (rating: HealthCheckRating):
-  "green" | "olive" | "yellow" | "orange" | "red" | undefined => {
+  "green" | "yellow" | "orange" | "red" | undefined => {
   switch (rating) {
     case 0:
       return "green";
     case 1:
-      return "olive";
+      return "yellow";
     case 2:
-      return "yellow"
-    case 3:
       return "orange";
-    case 4:
+    case 3:
       return "red";
   }
 };
