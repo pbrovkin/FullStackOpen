@@ -29,4 +29,18 @@ router.post('/', (req, res) => {
   }
 });
 
+router.post('/:id/entries', (req, res) => {
+  const patient = patientService.findById(req.params.id);
+  if (patient) {
+    try {
+      const newEntry = req.body;
+
+      const updatedPatient = patientService.addEntry(patient, newEntry);
+      res.json(updatedPatient);
+    } catch (e) {
+      res.status(400).send(e.message);
+    }
+  }
+});
+
 export default router;

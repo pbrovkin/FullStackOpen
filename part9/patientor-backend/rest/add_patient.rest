@@ -3,8 +3,15 @@ Content-Type: application/json
 
 {
   "name": "Jack Daniels",
-  "dateOfBirth": "2020-11-01",
+  "dateOfBirth": "1949-01-10",
   "ssn": "100149-05Z",
   "gender": "male",
-  "occupation": "Whiskey"
+  "occupation": "Whiskey",
+  "entries": {
+    "date": "2020-10-20",
+    "specialist": "MD House",
+    "type": "OccupationalHealthcare",
+    "employerName": "FBI",
+    "description": "Prescriptions renewed."
+  }
 }
