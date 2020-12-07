@@ -24,7 +24,7 @@ interface HealthCheckEntry extends BaseEntry {
   healthCheckRating: HealthCheckRating;
 }
 
-interface Discharge {
+export interface Discharge {
   date: string;
   criteria: string;
 }
@@ -71,6 +71,12 @@ export type PublicPatient = Omit<Patient, 'ssn' | 'entries'>
 export type NoSsnPatient = Omit<Patient, 'ssn'>;
 
 export type NoIdPatient = Omit<Patient, 'id'>;
+
+export enum TypeOfEntry {
+  Hospital = 'Hospital',
+  OccupationalHealthcare = 'OccupationalHealthcare',
+  HealthCheck = 'HealthCheck'
+}
 
 export type NoIdEntry =
   | Omit<HospitalEntry, 'id'>
