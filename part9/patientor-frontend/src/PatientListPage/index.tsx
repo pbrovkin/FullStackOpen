@@ -8,7 +8,7 @@ import AddPatientModal from "../AddPatientModal";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import HealthRatingBar from "../components/HealthRatingBar";
-import { useStateValue, addPatient } from "../state";
+import { useStateValue, addPatient, setPatient } from "../state";
 
 const PatientListPage: React.FC = () => {
   const [{ patients, patient }, dispatch] = useStateValue();
@@ -43,7 +43,7 @@ const PatientListPage: React.FC = () => {
         const { data: patientFromApi } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        dispatch({ type: "SET_PATIENT", payload: patientFromApi });
+        dispatch(setPatient(patientFromApi));
       } catch (e) {
         console.error(e);
       }
