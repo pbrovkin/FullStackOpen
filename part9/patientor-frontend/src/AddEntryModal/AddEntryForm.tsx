@@ -1,53 +1,44 @@
 import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Formik, Form, Field } from "formik";
-import { HospitalEntry } from "../types";
-import { DiagnosisSelection, TextField } from "../AddPatientModal/FormField";
+import { Entry } from "../types";
+import { TextField, NumberField, DiagnosisSelection } from "../AddPatientModal/FormField";
 import { useStateValue } from "../state";
 
-export type EntryFormValues = Omit<HospitalEntry, "id">;
+export type EntryFormValues = Omit<Entry, "id">;
 
 interface Props {
   onSubmit: (values: EntryFormValues) => void;
   onCancel: () => void;
+  initialValue: Entry;
 }
 
-const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
+const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel, initialValue }) => {
   const [{ diagnoses }] = useStateValue()
+
+  const validate = (values: Entry) => {
+    const requiredError = "Field is required";
+    const errors: { [field: string]: string } = {};
+    if (!values.description) {
+      errors.description = requiredError;
+    }
+    if (!values.date) {
+      errors.date = requiredError;
+    }
+    if (!values.specialist) {
+      errors.specialist = requiredError;
+    }
+    if (values.type === "OccupationalHealthcare" && !values.employerName) {
+      errors.employerName = requiredError;
+    }
+    return errors;
+  };
 
   return (
     <Formik
-      initialValues={{
-        type: "Hospital",
-        description: "",
-        date: "",
-        specialist: "",
-        discharge: {
-          criteria: "",
-          date: ""
-        }
-      }}
+      initialValues={initialValue}
       onSubmit={onSubmit}
-      validate={values => {
-        const requiredError = "Field is required";
-        const errors: { [field: string]: string } = {};
-        if (!values.description) {
-          errors.description = requiredError;
-        }
-        if (!values.date) {
-          errors.date = requiredError;
-        }
-        if (!values.specialist) {
-          errors.specialist = requiredError;
-        }
-        if (!values.discharge.date) {
-          errors.name = requiredError;
-        }
-        if (!values.discharge.criteria) {
-          errors.name = requiredError;
-        }
-        return errors;
-      }}
+      validate={validate}
     >
       {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
 
@@ -71,18 +62,55 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
               name="specialist"
               component={TextField}
             />
-            <Field
-              label="Discharge Date"
-              placeholder="YYYY-MM-DD"
-              name="discharge.date"
-              component={TextField}
-            />
-            <Field
-              label="Discharge Criteria"
-              placeholder="discharge criteria"
-              name="discharge.criteria"
-              component={TextField}
-            />
+            {initialValue.type === "Hospital" ?
+              <Field
+                label="Discharge Date"
+                placeholder="YYYY-MM-DD"
+                name="discharge.date"
+                component={TextField}
+              />
+              : null}
+            {initialValue.type === "Hospital" ?
+              <Field
+                label="Discharge Criteria"
+                placeholder="discharge criteria"
+                name="discharge.criteria"
+                component={TextField}
+              />
+              : null}
+            {initialValue.type === "OccupationalHealthcare" ?
+              <Field
+                label="Employer"
+                placeholder="employer name"
+                name="employerName"
+                component={TextField}
+              />
+              : null}
+            {(initialValue.type === "OccupationalHealthcare") ?
+              <Field
+                label="Sick Leave Start"
+                placeholder="YYYY-MM-DD"
+                name="sickLeave.startDate"
+                component={TextField}
+              />
+              : null}
+            {(initialValue.type === "OccupationalHealthcare") ?
+              <Field
+                label="Sick Leave End"
+                placeholder="YYYY-MM-DD"
+                name="sickLeave.endDate"
+                component={TextField}
+              />
+              : null}
+            {initialValue.type === "HealthCheck" ?
+              <Field
+                label="Rating"
+                name="healthCheckRating"
+                component={NumberField}
+                min={0}
+                max={3}
+              />
+              : null}
             <DiagnosisSelection
               setFieldValue={setFieldValue}
               setFieldTouched={setFieldTouched}

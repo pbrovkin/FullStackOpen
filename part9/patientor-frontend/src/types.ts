@@ -65,3 +65,5 @@ export interface Patient {
   occupation: string;
   entries: Entry[];
 }
+
+export type TypeOfEntry = "Hospital" | "OccupationalHealthcare" | "HealthCheck";

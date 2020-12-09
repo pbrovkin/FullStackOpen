@@ -2,20 +2,70 @@ import React from "react";
 import axios from "axios";
 import { Button } from "semantic-ui-react";
 import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
-import { Gender, Patient } from "../types"
+import { Gender, Patient, Entry, TypeOfEntry } from "../types"
 import { apiBaseUrl } from "../constants";
 import { useStateValue, updatePatient } from "../state";
 import GenderIcon from "../components/GenderIcon";
 import EntryDetails from "../components/EntryDetails";
 import AddEntryModal from '../AddEntryModal';
 
+const getInitialValues = (entryType: TypeOfEntry): Entry => {
+  switch (entryType) {
+    case "Hospital":
+      return {
+        id: "",
+        type: "Hospital",
+        description: "",
+        date: "",
+        specialist: "",
+        discharge: {
+          date: "",
+          criteria: ""
+        }
+      };
+    case "OccupationalHealthcare":
+      return {
+        id: "",
+        type: "OccupationalHealthcare",
+        description: "",
+        date: "",
+        specialist: "",
+        employerName: ""
+      };
+    case "HealthCheck":
+      return {
+        id: "",
+        type: "HealthCheck",
+        description: "",
+        date: "",
+        specialist: "",
+        healthCheckRating: 0
+      };
+  }
+};
+
+const switchTypeName = (type: TypeOfEntry): string => {
+  switch (type) {
+    case 'HealthCheck':
+      return 'health check';
+    case 'Hospital':
+      return 'hospital';
+    case 'OccupationalHealthcare':
+      return 'occupational healthcare';
+  }
+};
+
 const PatientInfoPage: React.FC = () => {
   const [{ patient }, dispatch] = useStateValue();
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | undefined>();
+  const [entryType, setEntryType] = React.useState<TypeOfEntry>("HealthCheck");
 
-  const openModal = (): void => setModalOpen(true);
+  const openModal = (entryType: TypeOfEntry): void => {
+    setEntryType(entryType);
+    setModalOpen(true);
+  };
 
   const closeModal = (): void => {
     setModalOpen(false);
@@ -54,9 +104,13 @@ const PatientInfoPage: React.FC = () => {
         onSubmit={submitNewEntry}
         error={error}
         onClose={closeModal}
+        initialValue={getInitialValues(entryType)}
       />
+      <h3>Add an entry:</h3>
+      <Button onClick={() => openModal("Hospital")}>{switchTypeName("Hospital")}</Button>
+      <Button onClick={() => openModal("OccupationalHealthcare")}>{switchTypeName("OccupationalHealthcare")}</Button>
+      <Button onClick={() => openModal("HealthCheck")}>{switchTypeName("HealthCheck")}</Button>
       <h3>Entries:</h3>
-      <Button onClick={() => openModal()}>Add New Entry</Button>
       {patient.entries.length > 0 ?
         patient.entries.map(entry => <EntryDetails key={entry.id} entry={entry} />)
         : <div>no entries found</div>}
